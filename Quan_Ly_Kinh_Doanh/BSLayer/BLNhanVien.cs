@@ -93,7 +93,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
                     HinhSP.Save(img, ImageFormat.Jpeg);
                     Hinh = img.ToArray();
                 }
-                string query = string.Format("EXEC dbo.usp_NhanVien_Them N'{0}', N'{1}', N'{2}', N'{3}', '{4}', N'{5}', N'{6}', '{7}', @Hinh, N'{8}'", MaNV, Ho, TenLot, Ten, NgaySinh, GioiTinh, LayMaPhong(Phong), LuongCB, DienThoai);
+                string query = string.Format("EXEC dbo.usp_NhanVien_Them N'{0}', N'{1}', N'{2}', N'{3}', '{4}', N'{5}', N'{6}', '{7}', @Hinh, N'{8}'", MaNV, Ho, TenLot, Ten, ChuanHoaNgay(NgaySinh), GioiTinh, LayMaPhong(Phong), LuongCB, DienThoai);
                 qlSTEntity.Database.ExecuteSqlCommand(query, new SqlParameter("@Hinh", Hinh));
 
                 return true;
@@ -116,7 +116,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
                     HinhSP.Save(img, ImageFormat.Jpeg);
                     Hinh = img.ToArray();
                 }
-                string query = string.Format("EXEC dbo.usp_NhanVien_Sua N'{0}', N'{1}', N'{2}', N'{3}', '{4}', N'{5}', N'{6}', '{7}', @Hinh, N'{8}'", MaNV, Ho, TenLot, Ten, NgaySinh, GioiTinh, LayMaPhong(Phong), LuongCB, DienThoai);
+                string query = string.Format("EXEC dbo.usp_NhanVien_Sua N'{0}', N'{1}', N'{2}', N'{3}', '{4}', N'{5}', N'{6}', '{7}', @Hinh, N'{8}'", MaNV, Ho, TenLot, Ten, ChuanHoaNgay(NgaySinh), GioiTinh, LayMaPhong(Phong), LuongCB, DienThoai);
                 qlKDEntity.Database.ExecuteSqlCommand(query, new SqlParameter("@Hinh", Hinh));
 
                 return true;
@@ -197,22 +197,22 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
         public DataTable LayNhanVienTheoTimKiem(KieuTimKiemNhanVien kieuTimKiem, string chuoiCanTim)
         {
             QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
-
-            System.Data.Entity.Infrastructure.DbSqlQuery<Quan_Ly_Kinh_Doanh.NHANVIEN> sps;
-            if (kieuTimKiem == KieuTimKiemNhanVien.THEO_TEN)
-                sps = qlSTEntity.NHANVIENs.SqlQuery("Select * from func_NhanVien_TimTheoTen('" + chuoiCanTim + "')");
-            else
-                sps = qlSTEntity.NHANVIENs.SqlQuery("Select * from func_NhanVien_TimTheoID('" + chuoiCanTim + "')");
-
-
             DataTable dt = new DataTable();
             SetTableColumn(dt);
-
-            foreach (var p in sps)
+            try
             {
-                dt.Rows.Add(p.MaNV, p.Ho, p.TenLot, p.Ten,
-                    p.NgaySinh, p.GioiTinh, p.Phong, p.LuongCB, p.DienThoai);
-            }
+                System.Data.Entity.Infrastructure.DbSqlQuery<Quan_Ly_Kinh_Doanh.NHANVIEN> sps;
+                if (kieuTimKiem == KieuTimKiemNhanVien.THEO_TEN)
+                    sps = qlSTEntity.NHANVIENs.SqlQuery("Select * from func_NhanVien_TimTheoTen('" + chuoiCanTim + "')");
+                else
+                    sps = qlSTEntity.NHANVIENs.SqlQuery("Select * from func_NhanVien_TimTheoID('" + chuoiCanTim + "')");
+
+                foreach (var p in sps)
+                {
+                    dt.Rows.Add(p.MaNV, p.Ho, p.TenLot, p.Ten,
+                        p.NgaySinh, p.GioiTinh, p.Phong, p.LuongCB, p.DienThoai);
+                }
+            } catch(Exception e) { }
 
             return dt;
         }
@@ -270,37 +270,43 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
 
             }
 
-                return dt;
-            }
+            return dt;
+        }
 
-            public List<string> LayDSTenPhong()
+        public List<string> LayDSTenPhong()
+        {
+            List<string> dsTenPhong = new List<string>();
+            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
+            var sps = from p in qlSTEntity.PHONGBANs select p;
+
+            foreach (var item in sps)
             {
-                List<string> dsTenPhong = new List<string>();
-                QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
-                var sps = from p in qlSTEntity.PHONGBANs select p;
-
-                foreach (var item in sps)
-                {
-                    dsTenPhong.Add(item.TenPhong);
-                }
-
-                return dsTenPhong;
+                dsTenPhong.Add(item.TenPhong);
             }
 
-            string LayMaPhong(string TenPhong)
-            {
-                QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
-                var sps = (from p in qlSTEntity.PHONGBANs
-                           where p.TenPhong == TenPhong
-                           select p).SingleOrDefault();
-                return sps.MaPB;
-            }
+            return dsTenPhong;
+        }
 
-            public string SinhMaNVMoi(string MaCuoi)
-            {
-                QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
-                string mamoi = qlSTEntity.Database.SqlQuery<string>("SELECT dbo.func_NhanVien_SinhMa()").Single().ToString().Trim();
-                return mamoi;
-            }
+        string LayMaPhong(string TenPhong)
+        {
+            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
+            var sps = (from p in qlSTEntity.PHONGBANs
+                       where p.TenPhong == TenPhong
+                       select p).SingleOrDefault();
+            return sps.MaPB;
+        }
+
+        public string SinhMaNVMoi(string MaCuoi)
+        {
+            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
+            string mamoi = qlSTEntity.Database.SqlQuery<string>("SELECT dbo.func_NhanVien_SinhMa()").Single().ToString().Trim();
+            return mamoi;
+        }
+
+        public string ChuanHoaNgay(DateTime ngay)
+        {
+            string ngayChuan = ngay.ToString("yyyy/MM/dd");
+            return ngayChuan;
         }
     }
+}

@@ -45,7 +45,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
             {
                 QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
 
-                string query = string.Format("EXEC dbo.usp_HoaDon_Them N'{0}', N'{1}', N'{2}', '{3}', '{4}'", MaHD, LayMaKH(TenKH), LayMaNV(TenNV), NgayLapHD, NgayNhanHang);
+                string query = string.Format("EXEC dbo.usp_HoaDon_Them N'{0}', N'{1}', N'{2}', '{3}', '{4}'", MaHD, LayMaKH(TenKH), LayMaNV(TenNV), ChuanHoaNgay(NgayLapHD), ChuanHoaNgay(NgayNhanHang));
                 qlSTEntity.Database.ExecuteSqlCommand(query);
 
                 return true;
@@ -60,7 +60,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
             try
             {
                 QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities();
-                string query = string.Format("EXEC dbo.usp_HoaDon_Sua N'{0}', N'{1}', N'{2}', '{3}', '{4}'", MaHD, LayMaKH(TenKH), LayMaNV(TenNV), NgayLapHD, NgayNhanHang);
+                string query = string.Format("EXEC dbo.usp_HoaDon_Sua N'{0}', N'{1}', N'{2}', '{3}', '{4}'", MaHD, LayMaKH(TenKH), LayMaNV(TenNV), ChuanHoaNgay(NgayLapHD), ChuanHoaNgay(NgayNhanHang));
                 qlKDEntity.Database.ExecuteSqlCommand(query);
 
                 return true;
@@ -159,6 +159,12 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
             }
 
             return dt;
+        }
+
+        public string ChuanHoaNgay(DateTime ngay)
+        {
+            string ngayChuan = ngay.ToString("yyyy/MM/dd");
+            return ngayChuan;
         }
     }
 }
