@@ -199,16 +199,21 @@ namespace Quan_Ly_Kinh_Doanh
             if (r >= dgvNHANVIEN.Rows.Count - 1)
                 return;
             int count = 0;
-            txtMaNV.Text = dgvNHANVIEN.Rows[r].Cells[count++].Value.ToString();
-            txtHo.Text = dgvNHANVIEN.Rows[r].Cells[count++].Value.ToString();
-            txtTenLot.Text = dgvNHANVIEN.Rows[r].Cells[count++].Value.ToString();
-            txtTen.Text = dgvNHANVIEN.Rows[r].Cells[count++].Value.ToString();
-            dtpNgaySinh.Value = DateTime.Parse(dgvNHANVIEN.Rows[r].Cells[count++].Value.ToString());
-            cbbGioiTinh.Text = dgvNHANVIEN.Rows[r].Cells[count++].Value.ToString();
-            cbbTenPhong.Text = dgvNHANVIEN.Rows[r].Cells[count++].Value.ToString();
-            txtLuongCB.Text = dgvNHANVIEN.Rows[r].Cells[count++].Value.ToString();
-            txtDienThoai.Text = dgvNHANVIEN.Rows[r].Cells[count++].Value.ToString();
-            pcbHinhAnh.Image = dbNV.LayHinhAnhNhanVien(txtMaNV.Text);
+            try
+            {
+                txtMaNV.Text = dgvNHANVIEN.Rows[r].Cells[count++].Value.ToString();
+                txtHo.Text = dgvNHANVIEN.Rows[r].Cells[count++].Value.ToString();
+                txtTenLot.Text = dgvNHANVIEN.Rows[r].Cells[count++].Value.ToString();
+                txtTen.Text = dgvNHANVIEN.Rows[r].Cells[count++].Value.ToString();
+                dtpNgaySinh.Value = DateTime.Parse(dgvNHANVIEN.Rows[r].Cells[count++].Value.ToString());
+                cbbGioiTinh.Text = dgvNHANVIEN.Rows[r].Cells[count++].Value.ToString();
+                cbbTenPhong.Text = dgvNHANVIEN.Rows[r].Cells[count++].Value.ToString();
+                txtLuongCB.Text = dgvNHANVIEN.Rows[r].Cells[count++].Value.ToString();
+                txtDienThoai.Text = dgvNHANVIEN.Rows[r].Cells[count++].Value.ToString();
+                pcbHinhAnh.Image = dbNV.LayHinhAnhNhanVien(txtMaNV.Text);
+            }
+            catch (Exception e2) { }
+
         }
 
         private void btnLoadFileImg_Click(object sender, EventArgs e)
@@ -338,7 +343,7 @@ namespace Quan_Ly_Kinh_Doanh
 
         void KhoiTaoGiaTriComboBox()
         {
-            List<string> gioitinh = new List<string>() {"Nam", "Nữ"};
+            List<string> gioitinh = new List<string>() { "Nam", "Nữ" };
             cbbGioiTinh.DataSource = gioitinh;
 
             cbbTenPhong.DataSource = dbNV.LayDSTenPhong();

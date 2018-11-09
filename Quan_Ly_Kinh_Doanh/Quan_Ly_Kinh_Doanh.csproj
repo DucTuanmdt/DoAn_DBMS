@@ -32,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
+    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ReportViewer.Common, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
@@ -57,6 +57,8 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Entity.Design" />
+    <Reference Include="System.IdentityModel" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
@@ -142,6 +144,63 @@
     <Compile Include="DisplayLayer\ThongKe.Designer.cs">
       <DependentUpon>ThongKe.cs</DependentUpon>
     </Compile>
+    <Compile Include="func_ChiTietHoaDon_TimTheoTenSP_Result.cs">
+      <DependentUpon>QuanLySieuThi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="func_HoaDon_LayDSMaHD_Result.cs">
+      <DependentUpon>QuanLySieuThi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="func_HoaDon_TimTheoTenKhachHang_Result.cs">
+      <DependentUpon>QuanLySieuThi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="func_HoaDon_TimTheoTenNhanVien_Result.cs">
+      <DependentUpon>QuanLySieuThi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="func_KhachHang_LayDSTenKhachHang_Result.cs">
+      <DependentUpon>QuanLySieuThi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="func_KhachHang_LocTuoiLonHon_Result.cs">
+      <DependentUpon>QuanLySieuThi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="func_KhachHang_LocTuoiNhoHon_Result.cs">
+      <DependentUpon>QuanLySieuThi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="func_KhachHang_TimTheoTen_Result.cs">
+      <DependentUpon>QuanLySieuThi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="func_NhanVien_LayDanhSachTenNhanVien_Result.cs">
+      <DependentUpon>QuanLySieuThi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="func_NhanVien_LocTuoiLonHon_Result.cs">
+      <DependentUpon>QuanLySieuThi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="func_NhanVien_LocTuoiNhoHon_Result.cs">
+      <DependentUpon>QuanLySieuThi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="func_NhanVien_TimTheoID_Result.cs">
+      <DependentUpon>QuanLySieuThi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="func_NhanVien_TimTheoTen_Result.cs">
+      <DependentUpon>QuanLySieuThi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="func_PhongBan_LayDSTenPhong_Result.cs">
+      <DependentUpon>QuanLySieuThi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="func_PhongBan_TimTheoTenPhong_Result.cs">
+      <DependentUpon>QuanLySieuThi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="func_PhongBan_TimTheoTenTruongPhong_Result.cs">
+      <DependentUpon>QuanLySieuThi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="func_SanPham_TimGiaLonHon_Result.cs">
+      <DependentUpon>QuanLySieuThi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="func_SanPham_TimGiaNhoHon_Result.cs">
+      <DependentUpon>QuanLySieuThi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="func_SanPham_TimTheoTen_Result.cs">
+      <DependentUpon>QuanLySieuThi.tt</DependentUpon>
+    </Compile>
     <Compile Include="HOADON.cs">
       <DependentUpon>QuanLySieuThi.tt</DependentUpon>
     </Compile>
@@ -180,8 +239,38 @@
     <Compile Include="SANPHAM.cs">
       <DependentUpon>QuanLySieuThi.tt</DependentUpon>
     </Compile>
+    <Compile Include="sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>QuanLySieuThi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_helpdiagrams_Result.cs">
+      <DependentUpon>QuanLySieuThi.tt</DependentUpon>
+    </Compile>
     <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="sysdiagram.cs">
+      <DependentUpon>QuanLySieuThi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="view_ChiTietHoaDon.cs">
+      <DependentUpon>QuanLySieuThi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="view_HoaDon.cs">
+      <DependentUpon>QuanLySieuThi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="view_KhachHang.cs">
+      <DependentUpon>QuanLySieuThi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="view_NhanVien.cs">
+      <DependentUpon>QuanLySieuThi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="view_NhanVien_Nam.cs">
+      <DependentUpon>QuanLySieuThi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="view_NhanVien_Nu.cs">
+      <DependentUpon>QuanLySieuThi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="view_PhongBan.cs">
+      <DependentUpon>QuanLySieuThi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="view_SanPham.cs">
       <DependentUpon>QuanLySieuThi.tt</DependentUpon>
     </Compile>
     <EmbeddedResource Include="DisplayLayer\FormChiTietHoaDon.resx">
@@ -277,10 +366,6 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EntityDeploy Include="QuanLySieuThi.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>QuanLySieuThi.Designer.cs</LastGenOutput>
-    </EntityDeploy>
     <None Include="QLST.xsc">
       <DependentUpon>QLST.xsd</DependentUpon>
     </None>
@@ -288,6 +373,10 @@
     <None Include="QLST.xss">
       <DependentUpon>QLST.xsd</DependentUpon>
     </None>
+    <EntityDeploy Include="QuanLySieuThi.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>QuanLySieuThi.Designer.cs</LastGenOutput>
+    </EntityDeploy>
     <None Include="QuanLySieuThi.edmx.diagram">
       <DependentUpon>QuanLySieuThi.edmx</DependentUpon>
     </None>
@@ -300,6 +389,16 @@
     <None Include="Image\Login.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="QuanLySieuThi.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>QuanLySieuThi.edmx</DependentUpon>
+      <LastGenOutput>QuanLySieuThi.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="QuanLySieuThi.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>QuanLySieuThi.edmx</DependentUpon>
+      <LastGenOutput>QuanLySieuThi.cs</LastGenOutput>
+    </Content>
     <Content Include="SqlServerTypes\readme.htm" />
     <None Include="Image\report.png" />
     <Content Include="report.csproj" />
@@ -313,16 +412,6 @@
     <None Include="Image\qlhd3.png" />
     <None Include="Image\exit22.png" />
     <None Include="Image\login2.png" />
-    <Content Include="QuanLySieuThi.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>QuanLySieuThi.edmx</DependentUpon>
-      <LastGenOutput>QuanLySieuThi.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="QuanLySieuThi.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>QuanLySieuThi.edmx</DependentUpon>
-      <LastGenOutput>QuanLySieuThi.cs</LastGenOutput>
-    </Content>
     <None Include="Resources\hinhtamsp.png" />
     <None Include="Resources\hinhtấmnpham.png" />
   </ItemGroup>

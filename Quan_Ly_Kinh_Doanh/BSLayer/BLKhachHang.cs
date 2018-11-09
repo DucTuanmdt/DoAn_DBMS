@@ -19,114 +19,100 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
             dt.Columns.Add("Điện thoại");
             dt.Columns.Add("Ngày sinh");
             dt.Columns.Add("Địa chỉ");
+            dt.Columns.Add("Giới tính");
+
         }
 
         public DataTable LayKhachHang()
         {
 
             QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
-            var khs = from p in qlSTEntity.KHACHHANGs select p;
+            var khs = qlSTEntity.view_KhachHang.SqlQuery("SELECT * FROM dbo.view_KhachHang");
             DataTable dt = new DataTable();
             SetTableColumn(dt);
 
             foreach (var p in khs)
             {
-                dt.Rows.Add(p.MaKH, p.TenKH, p.DienThoai, p.NgaySinh, p.DiaChi);
+                dt.Rows.Add(p.MaKH, p.TenKH, p.DienThoai, p.NgaySinh, p.DiaChi, p.GioiTinh);
             }
             return dt;
         }
 
         public bool ThemKhachHang(string MaKH, string TenKH, string DienThoai,
-            DateTime NgaySinh, string DiaChi, ref string err)
+            DateTime NgaySinh, string DiaChi, string GioiTinh, ref string err)
         {
-            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
-            KHACHHANG kh = new KHACHHANG();
-            kh.MaKH = MaKH;
-            kh.TenKH = TenKH;
-            kh.DienThoai = DienThoai;
-            kh.NgaySinh = NgaySinh;
-            kh.DiaChi = DiaChi;
+            try
+            {
+                QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
+                string query = string.Format("EXECUTE dbo.usp_KhachHang_Them N'{0}', N'{1}', N'{2}', '{3}', N'{4}', N'{5}'", MaKH, TenKH, GioiTinh, NgaySinh, DiaChi, DienThoai);
+                qlSTEntity.Database.ExecuteSqlCommand(query);
+                return true;
 
-            qlSTEntity.KHACHHANGs.Add(kh);
-            qlSTEntity.SaveChanges();
+            } catch (Exception e) { }
 
-            return true;
+            return false;
         }
 
         public bool CapNhatKhachHang(string MaKH, string TenKH, string DienThoai,
-            DateTime NgaySinh, string DiaChi, ref string err)
+            DateTime NgaySinh, string DiaChi, string GioiTinh, ref string err)
         {
-            QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities();
-            var khQuery = (from p in qlKDEntity.KHACHHANGs
-                           where p.MaKH == MaKH
-                           select p).SingleOrDefault();
-
-            if (khQuery != null)
+            try
             {
-                khQuery.TenKH = TenKH;
-                khQuery.DienThoai = DienThoai;
-                khQuery.NgaySinh = NgaySinh;
-                khQuery.DiaChi = DiaChi;
+                QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities();
+                string query = string.Format("EXECUTE dbo.usp_KhachHang_Sua N'{0}', N'{1}', N'{2}', '{3}', N'{4}', N'{5}'", MaKH, TenKH, GioiTinh, NgaySinh, DiaChi, DienThoai);
+                qlKDEntity.Database.ExecuteSqlCommand(query);
 
-                qlKDEntity.SaveChanges();
-            }
+                return true;
+            } catch (Exception e) { }
 
-            return true;
+            return false;
         }
 
         public bool XoaKhachHang(string MaKH, ref string err)
         {
-            QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities();
+            try
+            {
+                QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities();
+                string query = string.Format("EXECUTE dbo.usp_KhachHang_Xoa N'{0}'", MaKH);
+                qlKDEntity.Database.ExecuteSqlCommand(query);
 
-            KHACHHANG kh = new KHACHHANG();
-            kh.MaKH = MaKH;
+                return true;
+            } catch (Exception e) { }
 
-            qlKDEntity.KHACHHANGs.Attach(kh);
-            qlKDEntity.KHACHHANGs.Remove(kh);
-
-            qlKDEntity.SaveChanges();
-
-            return true;
+            return false;
         }
 
         public string SinhMaKHMoi(string MaCuoi)
         {
-            int mamoi = int.Parse(MaCuoi.Substring(2)) + 1;
-
-            return "KH" + mamoi.ToString("D2");
+            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
+            string mamoi = qlSTEntity.Database.SqlQuery<string>("SELECT dbo.func_KhachHang_SinhMa()").Single().ToString().Trim();
+            return mamoi;
         }
 
         public DataTable LayKhachHangTheoLoc(bool isLonHon, string Tuoi)
         {
             QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
-            IQueryable<KHACHHANG> sps;
-
-            int tuoi = 0;
-            int.TryParse(Tuoi, out tuoi);
-
-            DateTime homNay = DateTime.Today;
-            homNay = homNay.AddYears(tuoi * -1);
-
-            if (isLonHon == true)
-            {
-                sps = from p in qlSTEntity.KHACHHANGs
-                      where p.NgaySinh <= homNay
-                      select p;
-            }
-            else
-            {
-                sps = from p in qlSTEntity.KHACHHANGs
-                      where p.NgaySinh >= homNay
-                      select p;
-            }
-
-
             DataTable dt = new DataTable();
             SetTableColumn(dt);
 
-            foreach (var p in sps)
+            int tuoi = 0;
+            int.TryParse(Tuoi, out tuoi);
+            
+            if (isLonHon == true)
             {
-                dt.Rows.Add(p.MaKH, p.TenKH, p.DienThoai, p.NgaySinh, p.DiaChi);
+                var sps = qlSTEntity.func_KhachHang_LocTuoiLonHon(tuoi);
+                foreach (var p in sps)
+                {
+                    dt.Rows.Add(p.MaKH, p.TenKH, p.DienThoai, p.NgaySinh, p.DiaChi);
+                }
+            }
+            else
+            {
+                var sps2 = qlSTEntity.func_KhachHang_LocTuoiNhoHon(tuoi);
+                foreach (var p in sps2)
+                {
+                    dt.Rows.Add(p.MaKH, p.TenKH, p.DienThoai, p.NgaySinh, p.DiaChi);
+                }
             }
 
             return dt;
@@ -136,11 +122,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
         {
             QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
 
-            var sps = from p in qlSTEntity.KHACHHANGs
-                      where chuoiCanTim.Contains(p.TenKH) 
-                      || p.TenKH.Contains(chuoiCanTim)
-                      select p;
-
+            var sps = qlSTEntity.func_KhachHang_TimTheoTen(chuoiCanTim);
 
             DataTable dt = new DataTable();
             SetTableColumn(dt);

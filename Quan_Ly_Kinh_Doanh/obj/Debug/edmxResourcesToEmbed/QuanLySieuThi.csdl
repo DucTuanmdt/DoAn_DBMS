@@ -1,139 +1,333 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="QuanLySieuThiModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-  <EntityContainer Name="QuanLySieuThiEntities" p1:LazyLoadingEnabled="true">
-    <EntitySet Name="CHITIETHOADONs" EntityType="QuanLySieuThiModel.CHITIETHOADON" />
-    <EntitySet Name="DANGNHAPs" EntityType="QuanLySieuThiModel.DANGNHAP" />
-    <EntitySet Name="HOADONs" EntityType="QuanLySieuThiModel.HOADON" />
-    <EntitySet Name="KHACHHANGs" EntityType="QuanLySieuThiModel.KHACHHANG" />
-    <EntitySet Name="NHANVIENs" EntityType="QuanLySieuThiModel.NHANVIEN" />
-    <EntitySet Name="PHONGBANs" EntityType="QuanLySieuThiModel.PHONGBAN" />
-    <EntitySet Name="SANPHAMs" EntityType="QuanLySieuThiModel.SANPHAM" />
-    <EntitySet Name="sysdiagrams" EntityType="QuanLySieuThiModel.sysdiagram" />
-    <AssociationSet Name="FK_CHITIETHOADON_HOADON" Association="QuanLySieuThiModel.FK_CHITIETHOADON_HOADON">
-      <End Role="HOADON" EntitySet="HOADONs" />
-      <End Role="CHITIETHOADON" EntitySet="CHITIETHOADONs" />
-    </AssociationSet>
-    <AssociationSet Name="FK_CHITIETHOADON_SANPHAM" Association="QuanLySieuThiModel.FK_CHITIETHOADON_SANPHAM">
-      <End Role="SANPHAM" EntitySet="SANPHAMs" />
-      <End Role="CHITIETHOADON" EntitySet="CHITIETHOADONs" />
-    </AssociationSet>
-    <AssociationSet Name="FK__DANGNHAP__MatKha__49C3F6B7" Association="QuanLySieuThiModel.FK__DANGNHAP__MatKha__49C3F6B7">
-      <End Role="NHANVIEN" EntitySet="NHANVIENs" />
-      <End Role="DANGNHAP" EntitySet="DANGNHAPs" />
-    </AssociationSet>
-    <AssociationSet Name="FK_HOADON_KHACHHANG" Association="QuanLySieuThiModel.FK_HOADON_KHACHHANG">
-      <End Role="KHACHHANG" EntitySet="KHACHHANGs" />
-      <End Role="HOADON" EntitySet="HOADONs" />
-    </AssociationSet>
-    <AssociationSet Name="FK_HOADON_NHANVIEN" Association="QuanLySieuThiModel.FK_HOADON_NHANVIEN">
-      <End Role="NHANVIEN" EntitySet="NHANVIENs" />
-      <End Role="HOADON" EntitySet="HOADONs" />
-    </AssociationSet>
-    <AssociationSet Name="FK_NHANVIEN_PHONGBAN" Association="QuanLySieuThiModel.FK_NHANVIEN_PHONGBAN">
-      <End Role="PHONGBAN" EntitySet="PHONGBANs" />
-      <End Role="NHANVIEN" EntitySet="NHANVIENs" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PHONGBAN_NHANVIEN" Association="QuanLySieuThiModel.FK_PHONGBAN_NHANVIEN">
-      <End Role="NHANVIEN" EntitySet="NHANVIENs" />
-      <End Role="PHONGBAN" EntitySet="PHONGBANs" />
-    </AssociationSet>
-  </EntityContainer>
+<Schema Namespace="QuanLySieuThiModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <ComplexType Name="func_ChiTietHoaDon_TimTheoTenSP_Result">
+    <Property Name="MaHD" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="TenSP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SoLuong" Type="Int32" />
+  </ComplexType>
+  <ComplexType Name="func_HoaDon_LayDSMaHD_Result">
+    <Property Name="MaHD" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="func_HoaDon_TimTheoTenKhachHang_Result">
+    <Property Name="MaHD" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="TenKH" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TenNV" Type="String" MaxLength="62" FixedLength="false" Unicode="true" />
+    <Property Name="NgayLapHD" Type="DateTime" />
+    <Property Name="NgayNhanHang" Type="DateTime" />
+  </ComplexType>
+  <ComplexType Name="func_HoaDon_TimTheoTenNhanVien_Result">
+    <Property Name="MaHD" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="TenKH" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TenNV" Type="String" MaxLength="62" FixedLength="false" Unicode="true" />
+    <Property Name="NgayLapHD" Type="DateTime" />
+    <Property Name="NgayNhanHang" Type="DateTime" />
+  </ComplexType>
+  <ComplexType Name="func_KhachHang_LayDSTenKhachHang_Result">
+    <Property Name="TenKH" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </ComplexType>
+  <ComplexType Name="func_KhachHang_LocTuoiLonHon_Result">
+    <Property Name="MaKH" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="TenKH" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="GioiTinh" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+    <Property Name="NgaySinh" Type="DateTime" />
+    <Property Name="DiaChi" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="DienThoai" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
+  </ComplexType>
+  <ComplexType Name="func_KhachHang_LocTuoiNhoHon_Result">
+    <Property Name="MaKH" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="TenKH" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="GioiTinh" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+    <Property Name="NgaySinh" Type="DateTime" />
+    <Property Name="DiaChi" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="DienThoai" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
+  </ComplexType>
+  <ComplexType Name="func_KhachHang_TimTheoTen_Result">
+    <Property Name="MaKH" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="TenKH" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="GioiTinh" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+    <Property Name="NgaySinh" Type="DateTime" />
+    <Property Name="DiaChi" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="DienThoai" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
+  </ComplexType>
+  <ComplexType Name="func_NhanVien_LayDanhSachTenNhanVien_Result">
+    <Property Name="TenNV" Type="String" MaxLength="62" FixedLength="false" Unicode="true" />
+  </ComplexType>
+  <ComplexType Name="func_NhanVien_LocTuoiLonHon_Result">
+    <Property Name="MaNV" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Ho" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="TenLot" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Ten" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="NgaySinh" Type="DateTime" />
+    <Property Name="GioiTinh" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+    <Property Name="Phong" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="LuongCB" Type="Double" />
+    <Property Name="Hinh" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="DienThoai" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
+  </ComplexType>
+  <ComplexType Name="func_NhanVien_LocTuoiNhoHon_Result">
+    <Property Name="MaNV" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Ho" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="TenLot" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Ten" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="NgaySinh" Type="DateTime" />
+    <Property Name="GioiTinh" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+    <Property Name="Phong" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="LuongCB" Type="Double" />
+    <Property Name="Hinh" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="DienThoai" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
+  </ComplexType>
+  <ComplexType Name="func_NhanVien_TimTheoID_Result">
+    <Property Name="MaNV" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Ho" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="TenLot" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Ten" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="NgaySinh" Type="DateTime" />
+    <Property Name="GioiTinh" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+    <Property Name="Phong" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="LuongCB" Type="Double" />
+    <Property Name="Hinh" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="DienThoai" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
+  </ComplexType>
+  <ComplexType Name="func_NhanVien_TimTheoTen_Result">
+    <Property Name="MaNV" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Ho" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="TenLot" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Ten" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="NgaySinh" Type="DateTime" />
+    <Property Name="GioiTinh" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+    <Property Name="Phong" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="LuongCB" Type="Double" />
+    <Property Name="Hinh" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="DienThoai" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
+  </ComplexType>
+  <ComplexType Name="func_PhongBan_LayDSTenPhong_Result">
+    <Property Name="TenPhong" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </ComplexType>
+  <ComplexType Name="func_PhongBan_TimTheoTenPhong_Result">
+    <Property Name="MaPB" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="TenPhong" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TenTruongPhong" Type="String" MaxLength="62" FixedLength="false" Unicode="true" />
+  </ComplexType>
+  <ComplexType Name="func_PhongBan_TimTheoTenTruongPhong_Result">
+    <Property Name="MaPB" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="TenPhong" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TenTruongPhong" Type="String" MaxLength="62" FixedLength="false" Unicode="true" />
+  </ComplexType>
+  <ComplexType Name="func_SanPham_TimGiaLonHon_Result">
+    <Property Name="MaSP" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="TenSP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DonViTinh" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Gia" Type="Double" />
+    <Property Name="Hinh" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </ComplexType>
+  <ComplexType Name="func_SanPham_TimGiaNhoHon_Result">
+    <Property Name="MaSP" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="TenSP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DonViTinh" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Gia" Type="Double" />
+    <Property Name="Hinh" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </ComplexType>
+  <ComplexType Name="func_SanPham_TimTheoTen_Result">
+    <Property Name="MaSP" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="TenSP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DonViTinh" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Gia" Type="Double" />
+    <Property Name="Hinh" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </ComplexType>
   <EntityType Name="CHITIETHOADON">
     <Key>
       <PropertyRef Name="MaHD" />
       <PropertyRef Name="MaSP" />
     </Key>
-    <Property Name="MaHD" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
-    <Property Name="MaSP" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
+    <Property Name="MaHD" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="MaSP" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
     <Property Name="SoLuong" Type="Int32" />
-    <NavigationProperty Name="HOADON" Relationship="QuanLySieuThiModel.FK_CHITIETHOADON_HOADON" FromRole="CHITIETHOADON" ToRole="HOADON" />
-    <NavigationProperty Name="SANPHAM" Relationship="QuanLySieuThiModel.FK_CHITIETHOADON_SANPHAM" FromRole="CHITIETHOADON" ToRole="SANPHAM" />
+    <NavigationProperty Name="HOADON" Relationship="Self.FK_CHITIETHOADON_HOADON" FromRole="CHITIETHOADON" ToRole="HOADON" />
+    <NavigationProperty Name="SANPHAM" Relationship="Self.FK_CHITIETHOADON_SANPHAM" FromRole="CHITIETHOADON" ToRole="SANPHAM" />
   </EntityType>
   <EntityType Name="DANGNHAP">
     <Key>
       <PropertyRef Name="MaNV" />
     </Key>
-    <Property Name="MaNV" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
-    <Property Name="MatKhau" Type="String" MaxLength="10" Unicode="true" FixedLength="true" />
-    <NavigationProperty Name="NHANVIEN" Relationship="QuanLySieuThiModel.FK__DANGNHAP__MatKha__49C3F6B7" FromRole="DANGNHAP" ToRole="NHANVIEN" />
+    <Property Name="MaNV" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="MatKhau" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="PhanQuyen" Type="Int32" />
   </EntityType>
   <EntityType Name="HOADON">
     <Key>
       <PropertyRef Name="MaHD" />
     </Key>
-    <Property Name="MaHD" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
-    <Property Name="MaKH" Type="String" MaxLength="10" Unicode="true" FixedLength="true" />
-    <Property Name="MaNV" Type="String" MaxLength="10" Unicode="true" FixedLength="true" />
+    <Property Name="MaHD" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="MaKH" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="MaNV" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
     <Property Name="NgayLapHD" Type="DateTime" Precision="0" />
     <Property Name="NgayNhanHang" Type="DateTime" Precision="0" />
-    <NavigationProperty Name="CHITIETHOADONs" Relationship="QuanLySieuThiModel.FK_CHITIETHOADON_HOADON" FromRole="HOADON" ToRole="CHITIETHOADON" />
-    <NavigationProperty Name="KHACHHANG" Relationship="QuanLySieuThiModel.FK_HOADON_KHACHHANG" FromRole="HOADON" ToRole="KHACHHANG" />
-    <NavigationProperty Name="NHANVIEN" Relationship="QuanLySieuThiModel.FK_HOADON_NHANVIEN" FromRole="HOADON" ToRole="NHANVIEN" />
+    <NavigationProperty Name="CHITIETHOADONs" Relationship="Self.FK_CHITIETHOADON_HOADON" FromRole="HOADON" ToRole="CHITIETHOADON" />
+    <NavigationProperty Name="KHACHHANG" Relationship="Self.FK_HOADON_KHACHHANG" FromRole="HOADON" ToRole="KHACHHANG" />
+    <NavigationProperty Name="NHANVIEN" Relationship="Self.FK_HOADON_NHANVIEN" FromRole="HOADON" ToRole="NHANVIEN" />
   </EntityType>
   <EntityType Name="KHACHHANG">
     <Key>
       <PropertyRef Name="MaKH" />
     </Key>
-    <Property Name="MaKH" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
-    <Property Name="TenKH" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="MaKH" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="TenKH" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="GioiTinh" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
     <Property Name="NgaySinh" Type="DateTime" Precision="0" />
-    <Property Name="DiaChi" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
-    <Property Name="DienThoai" Type="String" MaxLength="12" Unicode="true" FixedLength="true" />
-    <NavigationProperty Name="HOADONs" Relationship="QuanLySieuThiModel.FK_HOADON_KHACHHANG" FromRole="KHACHHANG" ToRole="HOADON" />
+    <Property Name="DiaChi" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="DienThoai" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="HOADONs" Relationship="Self.FK_HOADON_KHACHHANG" FromRole="KHACHHANG" ToRole="HOADON" />
   </EntityType>
   <EntityType Name="NHANVIEN">
     <Key>
       <PropertyRef Name="MaNV" />
     </Key>
-    <Property Name="MaNV" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
-    <Property Name="Ho" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
-    <Property Name="TenLot" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
-    <Property Name="Ten" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="MaNV" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Ho" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="TenLot" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Ten" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
     <Property Name="NgaySinh" Type="DateTime" Precision="0" />
-    <Property Name="GioiTinh" Type="String" MaxLength="3" Unicode="true" FixedLength="false" />
-    <Property Name="Phong" Type="String" MaxLength="10" Unicode="true" FixedLength="true" />
+    <Property Name="GioiTinh" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+    <Property Name="Phong" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
     <Property Name="LuongCB" Type="Double" />
     <Property Name="Hinh" Type="Binary" MaxLength="Max" FixedLength="false" />
-    <Property Name="DienThoai" Type="String" MaxLength="12" Unicode="true" FixedLength="true" />
-    <NavigationProperty Name="DANGNHAP" Relationship="QuanLySieuThiModel.FK__DANGNHAP__MatKha__49C3F6B7" FromRole="NHANVIEN" ToRole="DANGNHAP" />
-    <NavigationProperty Name="HOADONs" Relationship="QuanLySieuThiModel.FK_HOADON_NHANVIEN" FromRole="NHANVIEN" ToRole="HOADON" />
-    <NavigationProperty Name="PHONGBAN" Relationship="QuanLySieuThiModel.FK_NHANVIEN_PHONGBAN" FromRole="NHANVIEN" ToRole="PHONGBAN" />
-    <NavigationProperty Name="PHONGBANs" Relationship="QuanLySieuThiModel.FK_PHONGBAN_NHANVIEN" FromRole="NHANVIEN" ToRole="PHONGBAN" />
+    <Property Name="DienThoai" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="HOADONs" Relationship="Self.FK_HOADON_NHANVIEN" FromRole="NHANVIEN" ToRole="HOADON" />
+    <NavigationProperty Name="PHONGBAN" Relationship="Self.FK_NHANVIEN_PHONGBAN" FromRole="NHANVIEN" ToRole="PHONGBAN" />
+    <NavigationProperty Name="PHONGBANs" Relationship="Self.FK_PHONGBAN_NHANVIEN" FromRole="NHANVIEN" ToRole="PHONGBAN" />
   </EntityType>
   <EntityType Name="PHONGBAN">
     <Key>
       <PropertyRef Name="MaPB" />
     </Key>
-    <Property Name="MaPB" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
-    <Property Name="TenPhong" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-    <Property Name="TruongPhong" Type="String" MaxLength="10" Unicode="true" FixedLength="true" />
-    <NavigationProperty Name="NHANVIENs" Relationship="QuanLySieuThiModel.FK_NHANVIEN_PHONGBAN" FromRole="PHONGBAN" ToRole="NHANVIEN" />
-    <NavigationProperty Name="NHANVIEN" Relationship="QuanLySieuThiModel.FK_PHONGBAN_NHANVIEN" FromRole="PHONGBAN" ToRole="NHANVIEN" />
+    <Property Name="MaPB" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="TenPhong" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TruongPhong" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="NHANVIENs" Relationship="Self.FK_NHANVIEN_PHONGBAN" FromRole="PHONGBAN" ToRole="NHANVIEN" />
+    <NavigationProperty Name="NHANVIEN" Relationship="Self.FK_PHONGBAN_NHANVIEN" FromRole="PHONGBAN" ToRole="NHANVIEN" />
   </EntityType>
   <EntityType Name="SANPHAM">
     <Key>
       <PropertyRef Name="MaSP" />
     </Key>
-    <Property Name="MaSP" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
-    <Property Name="TenSP" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-    <Property Name="DonViTinh" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="MaSP" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="TenSP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DonViTinh" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
     <Property Name="Gia" Type="Double" />
     <Property Name="Hinh" Type="Binary" MaxLength="Max" FixedLength="false" />
-    <NavigationProperty Name="CHITIETHOADONs" Relationship="QuanLySieuThiModel.FK_CHITIETHOADON_SANPHAM" FromRole="SANPHAM" ToRole="CHITIETHOADON" />
+    <NavigationProperty Name="CHITIETHOADONs" Relationship="Self.FK_CHITIETHOADON_SANPHAM" FromRole="SANPHAM" ToRole="CHITIETHOADON" />
   </EntityType>
   <EntityType Name="sysdiagram">
     <Key>
       <PropertyRef Name="diagram_id" />
     </Key>
-    <Property Name="name" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="principal_id" Type="Int32" Nullable="false" />
-    <Property Name="diagram_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="version" Type="Int32" />
     <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
   </EntityType>
+  <EntityType Name="view_ChiTietHoaDon">
+    <Key>
+      <PropertyRef Name="MaHD" />
+    </Key>
+    <Property Name="MaHD" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="TenSP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SoLuong" Type="Int32" />
+  </EntityType>
+  <EntityType Name="view_HoaDon">
+    <Key>
+      <PropertyRef Name="MaHD" />
+    </Key>
+    <Property Name="MaHD" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="TenKH" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TenNV" Type="String" MaxLength="62" FixedLength="false" Unicode="true" />
+    <Property Name="NgayLapHD" Type="DateTime" Precision="0" />
+    <Property Name="NgayNhanHang" Type="DateTime" Precision="0" />
+  </EntityType>
+  <EntityType Name="view_KhachHang">
+    <Key>
+      <PropertyRef Name="MaKH" />
+    </Key>
+    <Property Name="MaKH" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="TenKH" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="GioiTinh" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+    <Property Name="NgaySinh" Type="DateTime" Precision="0" />
+    <Property Name="DiaChi" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="DienThoai" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
+  </EntityType>
+  <EntityType Name="view_NhanVien">
+    <Key>
+      <PropertyRef Name="MaNV" />
+    </Key>
+    <Property Name="MaNV" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Ho" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="TenLot" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Ten" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="NgaySinh" Type="DateTime" Precision="0" />
+    <Property Name="GioiTinh" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+    <Property Name="TenPhong" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LuongCB" Type="Double" />
+    <Property Name="DienThoai" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
+  </EntityType>
+  <EntityType Name="view_NhanVien_Nam">
+    <Key>
+      <PropertyRef Name="MaNV" />
+    </Key>
+    <Property Name="MaNV" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Ho" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="TenLot" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Ten" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="NgaySinh" Type="DateTime" Precision="0" />
+    <Property Name="GioiTinh" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+    <Property Name="Phong" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="LuongCB" Type="Double" />
+    <Property Name="Hinh" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="DienThoai" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
+  </EntityType>
+  <EntityType Name="view_NhanVien_Nu">
+    <Key>
+      <PropertyRef Name="MaNV" />
+    </Key>
+    <Property Name="MaNV" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Ho" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="TenLot" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Ten" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="NgaySinh" Type="DateTime" Precision="0" />
+    <Property Name="GioiTinh" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+    <Property Name="Phong" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="LuongCB" Type="Double" />
+    <Property Name="Hinh" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="DienThoai" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
+  </EntityType>
+  <EntityType Name="view_PhongBan">
+    <Key>
+      <PropertyRef Name="MaPB" />
+    </Key>
+    <Property Name="MaPB" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="TenPhong" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TenTruongPhong" Type="String" MaxLength="62" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="view_SanPham">
+    <Key>
+      <PropertyRef Name="MaNV" />
+    </Key>
+    <Property Name="MaNV" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Ho" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="TenLot" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Ten" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="NgaySinh" Type="DateTime" Precision="0" />
+    <Property Name="GioiTinh" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+    <Property Name="Phong" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="LuongCB" Type="Double" />
+    <Property Name="Hinh" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="DienThoai" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
+  </EntityType>
   <Association Name="FK_CHITIETHOADON_HOADON">
-    <End Role="HOADON" Type="QuanLySieuThiModel.HOADON" Multiplicity="1" />
-    <End Role="CHITIETHOADON" Type="QuanLySieuThiModel.CHITIETHOADON" Multiplicity="*" />
+    <End Role="HOADON" Type="Self.HOADON" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="CHITIETHOADON" Type="Self.CHITIETHOADON" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="HOADON">
         <PropertyRef Name="MaHD" />
@@ -144,8 +338,10 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_CHITIETHOADON_SANPHAM">
-    <End Role="SANPHAM" Type="QuanLySieuThiModel.SANPHAM" Multiplicity="1" />
-    <End Role="CHITIETHOADON" Type="QuanLySieuThiModel.CHITIETHOADON" Multiplicity="*" />
+    <End Role="SANPHAM" Type="Self.SANPHAM" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="CHITIETHOADON" Type="Self.CHITIETHOADON" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="SANPHAM">
         <PropertyRef Name="MaSP" />
@@ -155,21 +351,9 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__DANGNHAP__MatKha__49C3F6B7">
-    <End Role="NHANVIEN" Type="QuanLySieuThiModel.NHANVIEN" Multiplicity="1" />
-    <End Role="DANGNHAP" Type="QuanLySieuThiModel.DANGNHAP" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="NHANVIEN">
-        <PropertyRef Name="MaNV" />
-      </Principal>
-      <Dependent Role="DANGNHAP">
-        <PropertyRef Name="MaNV" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_HOADON_KHACHHANG">
-    <End Role="KHACHHANG" Type="QuanLySieuThiModel.KHACHHANG" Multiplicity="0..1" />
-    <End Role="HOADON" Type="QuanLySieuThiModel.HOADON" Multiplicity="*" />
+    <End Role="KHACHHANG" Type="Self.KHACHHANG" Multiplicity="0..1" />
+    <End Role="HOADON" Type="Self.HOADON" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="KHACHHANG">
         <PropertyRef Name="MaKH" />
@@ -180,8 +364,8 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_HOADON_NHANVIEN">
-    <End Role="NHANVIEN" Type="QuanLySieuThiModel.NHANVIEN" Multiplicity="0..1" />
-    <End Role="HOADON" Type="QuanLySieuThiModel.HOADON" Multiplicity="*" />
+    <End Role="NHANVIEN" Type="Self.NHANVIEN" Multiplicity="0..1" />
+    <End Role="HOADON" Type="Self.HOADON" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="NHANVIEN">
         <PropertyRef Name="MaNV" />
@@ -192,8 +376,8 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_NHANVIEN_PHONGBAN">
-    <End Role="PHONGBAN" Type="QuanLySieuThiModel.PHONGBAN" Multiplicity="0..1" />
-    <End Role="NHANVIEN" Type="QuanLySieuThiModel.NHANVIEN" Multiplicity="*" />
+    <End Role="PHONGBAN" Type="Self.PHONGBAN" Multiplicity="0..1" />
+    <End Role="NHANVIEN" Type="Self.NHANVIEN" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="PHONGBAN">
         <PropertyRef Name="MaPB" />
@@ -204,8 +388,8 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_PHONGBAN_NHANVIEN">
-    <End Role="NHANVIEN" Type="QuanLySieuThiModel.NHANVIEN" Multiplicity="0..1" />
-    <End Role="PHONGBAN" Type="QuanLySieuThiModel.PHONGBAN" Multiplicity="*" />
+    <End Role="NHANVIEN" Type="Self.NHANVIEN" Multiplicity="0..1" />
+    <End Role="PHONGBAN" Type="Self.PHONGBAN" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="NHANVIEN">
         <PropertyRef Name="MaNV" />
@@ -215,4 +399,247 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityContainer Name="QuanLySieuThiEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="CHITIETHOADONs" EntityType="Self.CHITIETHOADON" />
+    <EntitySet Name="DANGNHAPs" EntityType="Self.DANGNHAP" />
+    <EntitySet Name="HOADONs" EntityType="Self.HOADON" />
+    <EntitySet Name="KHACHHANGs" EntityType="Self.KHACHHANG" />
+    <EntitySet Name="NHANVIENs" EntityType="Self.NHANVIEN" />
+    <EntitySet Name="PHONGBANs" EntityType="Self.PHONGBAN" />
+    <EntitySet Name="SANPHAMs" EntityType="Self.SANPHAM" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="view_ChiTietHoaDon" EntityType="Self.view_ChiTietHoaDon" />
+    <EntitySet Name="view_HoaDon" EntityType="Self.view_HoaDon" />
+    <EntitySet Name="view_KhachHang" EntityType="Self.view_KhachHang" />
+    <EntitySet Name="view_NhanVien" EntityType="Self.view_NhanVien" />
+    <EntitySet Name="view_NhanVien_Nam" EntityType="Self.view_NhanVien_Nam" />
+    <EntitySet Name="view_NhanVien_Nu" EntityType="Self.view_NhanVien_Nu" />
+    <EntitySet Name="view_PhongBan" EntityType="Self.view_PhongBan" />
+    <EntitySet Name="view_SanPham" EntityType="Self.view_SanPham" />
+    <AssociationSet Name="FK_CHITIETHOADON_HOADON" Association="Self.FK_CHITIETHOADON_HOADON">
+      <End Role="HOADON" EntitySet="HOADONs" />
+      <End Role="CHITIETHOADON" EntitySet="CHITIETHOADONs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CHITIETHOADON_SANPHAM" Association="Self.FK_CHITIETHOADON_SANPHAM">
+      <End Role="SANPHAM" EntitySet="SANPHAMs" />
+      <End Role="CHITIETHOADON" EntitySet="CHITIETHOADONs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HOADON_KHACHHANG" Association="Self.FK_HOADON_KHACHHANG">
+      <End Role="KHACHHANG" EntitySet="KHACHHANGs" />
+      <End Role="HOADON" EntitySet="HOADONs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HOADON_NHANVIEN" Association="Self.FK_HOADON_NHANVIEN">
+      <End Role="NHANVIEN" EntitySet="NHANVIENs" />
+      <End Role="HOADON" EntitySet="HOADONs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NHANVIEN_PHONGBAN" Association="Self.FK_NHANVIEN_PHONGBAN">
+      <End Role="PHONGBAN" EntitySet="PHONGBANs" />
+      <End Role="NHANVIEN" EntitySet="NHANVIENs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PHONGBAN_NHANVIEN" Association="Self.FK_PHONGBAN_NHANVIEN">
+      <End Role="NHANVIEN" EntitySet="NHANVIENs" />
+      <End Role="PHONGBAN" EntitySet="PHONGBANs" />
+    </AssociationSet>
+    <FunctionImport Name="func_ChiTietHoaDon_TimTheoTenSP" IsComposable="true" ReturnType="Collection(QuanLySieuThiModel.func_ChiTietHoaDon_TimTheoTenSP_Result)">
+      <Parameter Name="ChuoiCanTim" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="func_HoaDon_LayDSMaHD" IsComposable="true" ReturnType="Collection(QuanLySieuThiModel.func_HoaDon_LayDSMaHD_Result)" />
+    <FunctionImport Name="func_HoaDon_TimTheoTenKhachHang" IsComposable="true" ReturnType="Collection(QuanLySieuThiModel.func_HoaDon_TimTheoTenKhachHang_Result)">
+      <Parameter Name="ChuoiCanTim" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="func_HoaDon_TimTheoTenNhanVien" IsComposable="true" ReturnType="Collection(QuanLySieuThiModel.func_HoaDon_TimTheoTenNhanVien_Result)">
+      <Parameter Name="ChuoiCanTim" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="func_KhachHang_LayDSTenKhachHang" IsComposable="true" ReturnType="Collection(QuanLySieuThiModel.func_KhachHang_LayDSTenKhachHang_Result)" />
+    <FunctionImport Name="func_KhachHang_LocTuoiLonHon" IsComposable="true" ReturnType="Collection(QuanLySieuThiModel.func_KhachHang_LocTuoiLonHon_Result)">
+      <Parameter Name="Tuoi" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="func_KhachHang_LocTuoiNhoHon" IsComposable="true" ReturnType="Collection(QuanLySieuThiModel.func_KhachHang_LocTuoiNhoHon_Result)">
+      <Parameter Name="Tuoi" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="func_KhachHang_TimTheoTen" IsComposable="true" ReturnType="Collection(QuanLySieuThiModel.func_KhachHang_TimTheoTen_Result)">
+      <Parameter Name="ChuoiCanTim" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="func_NhanVien_LayDanhSachTenNhanVien" IsComposable="true" ReturnType="Collection(QuanLySieuThiModel.func_NhanVien_LayDanhSachTenNhanVien_Result)" />
+    <FunctionImport Name="func_NhanVien_LocTuoiLonHon" IsComposable="true" ReturnType="Collection(QuanLySieuThiModel.func_NhanVien_LocTuoiLonHon_Result)">
+      <Parameter Name="Tuoi" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="func_NhanVien_LocTuoiNhoHon" IsComposable="true" ReturnType="Collection(QuanLySieuThiModel.func_NhanVien_LocTuoiNhoHon_Result)">
+      <Parameter Name="Tuoi" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="func_NhanVien_TimTheoID" IsComposable="true" ReturnType="Collection(QuanLySieuThiModel.func_NhanVien_TimTheoID_Result)">
+      <Parameter Name="ChuoiCanTim" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="func_NhanVien_TimTheoTen" IsComposable="true" ReturnType="Collection(QuanLySieuThiModel.func_NhanVien_TimTheoTen_Result)">
+      <Parameter Name="ChuoiCanTim" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="func_PhongBan_LayDSTenPhong" IsComposable="true" ReturnType="Collection(QuanLySieuThiModel.func_PhongBan_LayDSTenPhong_Result)" />
+    <FunctionImport Name="func_PhongBan_TimTheoTenPhong" IsComposable="true" ReturnType="Collection(QuanLySieuThiModel.func_PhongBan_TimTheoTenPhong_Result)">
+      <Parameter Name="ChuoiCanTim" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="func_PhongBan_TimTheoTenTruongPhong" IsComposable="true" ReturnType="Collection(QuanLySieuThiModel.func_PhongBan_TimTheoTenTruongPhong_Result)">
+      <Parameter Name="ChuoiCanTim" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="func_SanPham_TimGiaLonHon" IsComposable="true" ReturnType="Collection(QuanLySieuThiModel.func_SanPham_TimGiaLonHon_Result)">
+      <Parameter Name="GiaNhapVao" Mode="In" Type="Double" />
+    </FunctionImport>
+    <FunctionImport Name="func_SanPham_TimGiaNhoHon" IsComposable="true" ReturnType="Collection(QuanLySieuThiModel.func_SanPham_TimGiaNhoHon_Result)">
+      <Parameter Name="GiaNhapVao" Mode="In" Type="Double" />
+    </FunctionImport>
+    <FunctionImport Name="func_SanPham_TimTheoTen" IsComposable="true" ReturnType="Collection(QuanLySieuThiModel.func_SanPham_TimTheoTen_Result)">
+      <Parameter Name="ChuoiCanTim" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(QuanLySieuThiModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(QuanLySieuThiModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+    <FunctionImport Name="usp_ChiTietHoaDon_Sua">
+      <Parameter Name="MaHD" Mode="In" Type="String" />
+      <Parameter Name="MaSP" Mode="In" Type="String" />
+      <Parameter Name="SoLuong" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="usp_ChiTietHoaDon_Them">
+      <Parameter Name="MaHD" Mode="In" Type="String" />
+      <Parameter Name="MaSP" Mode="In" Type="String" />
+      <Parameter Name="SoLuong" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="usp_ChiTietHoaDon_Xoa">
+      <Parameter Name="MaHD" Mode="In" Type="String" />
+      <Parameter Name="MaSP" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="usp_DangNhap_DoiMatKhau">
+      <Parameter Name="username" Mode="In" Type="String" />
+      <Parameter Name="password" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="usp_HoaDon_Sua">
+      <Parameter Name="MaHD" Mode="In" Type="String" />
+      <Parameter Name="MaKH" Mode="In" Type="String" />
+      <Parameter Name="MaNV" Mode="In" Type="String" />
+      <Parameter Name="NgayLapHD" Mode="In" Type="DateTime" />
+      <Parameter Name="NgayNhanHang" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="usp_HoaDon_Them">
+      <Parameter Name="MaHD" Mode="In" Type="String" />
+      <Parameter Name="MaKH" Mode="In" Type="String" />
+      <Parameter Name="MaNV" Mode="In" Type="String" />
+      <Parameter Name="NgayLapHD" Mode="In" Type="DateTime" />
+      <Parameter Name="NgayNhanHang" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="usp_HoaDon_Xoa">
+      <Parameter Name="MaHD" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="usp_KhachHang_Sua">
+      <Parameter Name="MaKH" Mode="In" Type="String" />
+      <Parameter Name="TenKH" Mode="In" Type="String" />
+      <Parameter Name="GioiTinh" Mode="In" Type="String" />
+      <Parameter Name="NgaySinh" Mode="In" Type="DateTime" />
+      <Parameter Name="DiaChi" Mode="In" Type="String" />
+      <Parameter Name="DienThoai" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="usp_KhachHang_Them">
+      <Parameter Name="MaKH" Mode="In" Type="String" />
+      <Parameter Name="TenKH" Mode="In" Type="String" />
+      <Parameter Name="GioiTinh" Mode="In" Type="String" />
+      <Parameter Name="NgaySinh" Mode="In" Type="DateTime" />
+      <Parameter Name="DiaChi" Mode="In" Type="String" />
+      <Parameter Name="DienThoai" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="usp_KhachHang_Xoa">
+      <Parameter Name="MaKH" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="usp_NhanVien_Sua">
+      <Parameter Name="MaNV" Mode="In" Type="String" />
+      <Parameter Name="Ho" Mode="In" Type="String" />
+      <Parameter Name="TenLot" Mode="In" Type="String" />
+      <Parameter Name="Ten" Mode="In" Type="String" />
+      <Parameter Name="NgaySinh" Mode="In" Type="DateTime" />
+      <Parameter Name="GioiTinh" Mode="In" Type="String" />
+      <Parameter Name="Phong" Mode="In" Type="String" />
+      <Parameter Name="LuongCB" Mode="In" Type="Double" />
+      <Parameter Name="Hinh" Mode="In" Type="Binary" />
+      <Parameter Name="DienThoai" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="usp_NhanVien_Them">
+      <Parameter Name="MaNV" Mode="In" Type="String" />
+      <Parameter Name="Ho" Mode="In" Type="String" />
+      <Parameter Name="TenLot" Mode="In" Type="String" />
+      <Parameter Name="Ten" Mode="In" Type="String" />
+      <Parameter Name="NgaySinh" Mode="In" Type="DateTime" />
+      <Parameter Name="GioiTinh" Mode="In" Type="String" />
+      <Parameter Name="Phong" Mode="In" Type="String" />
+      <Parameter Name="LuongCB" Mode="In" Type="Double" />
+      <Parameter Name="Hinh" Mode="In" Type="Binary" />
+      <Parameter Name="DienThoai" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="usp_NhanVien_Xoa">
+      <Parameter Name="MaNV" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="usp_PhongBan_Sua">
+      <Parameter Name="MaPB" Mode="In" Type="String" />
+      <Parameter Name="TenPhong" Mode="In" Type="String" />
+      <Parameter Name="TruongPhong" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="usp_PhongBan_Them">
+      <Parameter Name="MaPB" Mode="In" Type="String" />
+      <Parameter Name="TenPhong" Mode="In" Type="String" />
+      <Parameter Name="TruongPhong" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="usp_PhongBan_Xoa">
+      <Parameter Name="MaPB" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="usp_SanPham_Sua">
+      <Parameter Name="MaSP" Mode="In" Type="String" />
+      <Parameter Name="TenSP" Mode="In" Type="String" />
+      <Parameter Name="DonViTinh" Mode="In" Type="String" />
+      <Parameter Name="Gia" Mode="In" Type="Double" />
+      <Parameter Name="Hinh" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="usp_SanPham_Them">
+      <Parameter Name="MaSP" Mode="In" Type="String" />
+      <Parameter Name="TenSP" Mode="In" Type="String" />
+      <Parameter Name="DonViTinh" Mode="In" Type="String" />
+      <Parameter Name="Gia" Mode="In" Type="Double" />
+      <Parameter Name="Hinh" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="usp_SanPham_Xoa">
+      <Parameter Name="MaSP" Mode="In" Type="String" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
 </Schema>

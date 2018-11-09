@@ -18,13 +18,10 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
         
         public DataTable LayChiTietHoaDon()
         {
-
             QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
-            var pbs = from p in qlSTEntity.CHITIETHOADONs select p;
+            var pbs = qlSTEntity.CHITIETHOADONs.SqlQuery("SELECT * FROM dbo.CHITIETHOADON");
             DataTable dt = new DataTable();
-            dt.Columns.Add("Mã hóa đơn");
-            dt.Columns.Add("Tên sản phẩm");
-            dt.Columns.Add("Số lượng");
+            SetTableColumn(dt);
 
             foreach (var p in pbs)
             {
@@ -35,55 +32,41 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
 
         public bool ThemChiTietHoaDon(string MaHD, string TenSP, string SoLuong, ref string err)
         {
-            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
-            CHITIETHOADON pb = new CHITIETHOADON();
+            try
+            {
+                QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
+                string query = string.Format("EXEC dbo.usp_ChiTietHoaDon_Them N'{0}', N'{1}', '{2}'", MaHD, LayMaSP(TenSP), SoLuong);
+                qlSTEntity.Database.ExecuteSqlCommand(query);
 
-            pb.MaHD = MaHD;
-            pb.MaSP = LayMaSP(TenSP);
-            int soluong = 0;
-            int.TryParse(SoLuong, out soluong);
-            pb.SoLuong = soluong;
+                return true;
+            } catch (Exception e) { }
 
-            qlSTEntity.CHITIETHOADONs.Add(pb);
-            qlSTEntity.SaveChanges();
-
-            return true;
+            return false;
         }
 
         public bool CapNhatChiTietHoaDon(string MaHD, string TenSP, string SoLuong, ref string err)
         {
-            QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities();
-            string MaSP = LayMaSP(TenSP);
-            var pbQuery = (from p in qlKDEntity.CHITIETHOADONs
-                           where p.MaHD == MaHD && p.MaSP == MaSP
-                           select p).SingleOrDefault();
-
-            if (pbQuery != null)
+            try
             {
-                int soluong = 0;
-                int.TryParse(SoLuong, out soluong);
-                pbQuery.SoLuong = soluong;
-
-                qlKDEntity.SaveChanges();
-            }
-
-            return true;
+                QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities();
+                string query = string.Format("EXEC dbo.usp_ChiTietHoaDon_Sua N'{0}', N'{1}', '{2}'", MaHD, LayMaSP(TenSP), SoLuong);
+                qlKDEntity.Database.ExecuteSqlCommand(query);
+                return true;
+            } catch(Exception e) { }
+            return false;
         }
 
-        public bool XoaChiTietHoaDon(string MaHD, string MaSP, ref string err)
+        public bool XoaChiTietHoaDon(string MaHD, string TenSP, ref string err)
         {
-            QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities();
+            try
+            {
+                QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities();
+                string query = string.Format("EXEC dbo.usp_ChiTietHoaDon_Xoa N'{0}', N'{1}'", MaHD, LayMaSP(TenSP));
+                qlKDEntity.Database.ExecuteSqlCommand(query);
 
-            CHITIETHOADON pb = new CHITIETHOADON();
-            pb.MaHD = MaHD;
-            pb.MaSP = MaSP;
-
-            qlKDEntity.CHITIETHOADONs.Attach(pb);
-            qlKDEntity.CHITIETHOADONs.Remove(pb);
-
-            qlKDEntity.SaveChanges();
-
-            return true;
+                return true;
+            } catch(Exception e) { }
+            return false;
         }
 
         public List<string> LayDSTenSP()
@@ -126,18 +109,14 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
         public DataTable LayChiTietHoaDonTheoTimKiem(string chuoiCanTim)
         {
             QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
-
-            var sps = from p in qlSTEntity.CHITIETHOADONs
-                      where p.SANPHAM.TenSP.Contains(chuoiCanTim)
-                      || chuoiCanTim.Contains(p.SANPHAM.TenSP)
-                      select p;
+            var sps = qlSTEntity.func_ChiTietHoaDon_TimTheoTenSP(chuoiCanTim);
 
             DataTable dt = new DataTable();
             SetTableColumn(dt);
-
+ 
             foreach (var p in sps)
             {
-                dt.Rows.Add(p.MaHD, p.SANPHAM.TenSP, p.SoLuong);
+                dt.Rows.Add(p.MaHD, p.TenSP, p.SoLuong);
             }
 
             return dt;

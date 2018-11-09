@@ -12,7 +12,8 @@ namespace Quan_Ly_Kinh_Doanh.DisplayLayer
 {
     public partial class FormMain : Form
     {
-        public static bool isLoginSuccess = false;
+        //Test xong thì sửa lại dòng này thành isLoginSuccess = false;
+        public static bool isLoginSuccess = true;
 
         public FormMain()
         {
@@ -21,8 +22,10 @@ namespace Quan_Ly_Kinh_Doanh.DisplayLayer
 
         private void dangNhapToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormDangNhap frmDangNhap = new FormDangNhap();
-            frmDangNhap.ShowDialog();
+            /// Test Xong mở khóa 2 dòng này
+
+            //FormDangNhap frmDangNhap = new FormDangNhap();
+            //frmDangNhap.ShowDialog();
 
             if (FormMain.isLoginSuccess == true)
             {

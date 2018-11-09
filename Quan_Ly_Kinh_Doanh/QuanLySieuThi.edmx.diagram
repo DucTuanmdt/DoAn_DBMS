@@ -4,18 +4,25 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="477f3cdcb92249f79b998e31777c5e4f" Name="Diagram1">
-        <EntityTypeShape EntityType="QuanLySieuThiModel.CHITIETHOADON" Width="1.5" PointX="8.25" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuanLySieuThiModel.DANGNHAP" Width="1.5" PointX="3" PointY="3.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuanLySieuThiModel.HOADON" Width="1.5" PointX="6" PointY="4.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuanLySieuThiModel.KHACHHANG" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuanLySieuThiModel.NHANVIEN" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuanLySieuThiModel.PHONGBAN" Width="1.5" PointX="3" PointY="9.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuanLySieuThiModel.SANPHAM" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuanLySieuThiModel.sysdiagram" Width="1.5" PointX="2.75" PointY="6.625" IsExpanded="true" />
+      <Diagram DiagramId="87bd31875dfb4d2ea0aaeb0f9281ddbc" Name="Diagram1">
+        <EntityTypeShape EntityType="QuanLySieuThiModel.CHITIETHOADON" Width="1.5" PointX="5.25" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLySieuThiModel.DANGNHAP" Width="1.5" PointX="5.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLySieuThiModel.HOADON" Width="1.5" PointX="3" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLySieuThiModel.KHACHHANG" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLySieuThiModel.NHANVIEN" Width="1.5" PointX="0.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLySieuThiModel.PHONGBAN" Width="1.5" PointX="3" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLySieuThiModel.SANPHAM" Width="1.5" PointX="3" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLySieuThiModel.sysdiagram" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLySieuThiModel.view_ChiTietHoaDon" Width="1.5" PointX="7.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLySieuThiModel.view_HoaDon" Width="1.5" PointX="7.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLySieuThiModel.view_KhachHang" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLySieuThiModel.view_NhanVien" Width="1.5" PointX="9.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLySieuThiModel.view_NhanVien_Nam" Width="1.5" PointX="5.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLySieuThiModel.view_NhanVien_Nu" Width="1.5" PointX="9.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLySieuThiModel.view_PhongBan" Width="1.5" PointX="11.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLySieuThiModel.view_SanPham" Width="1.5" PointX="11.75" PointY="3.75" IsExpanded="true" />
         <AssociationConnector Association="QuanLySieuThiModel.FK_CHITIETHOADON_HOADON" ManuallyRouted="false" />
         <AssociationConnector Association="QuanLySieuThiModel.FK_CHITIETHOADON_SANPHAM" ManuallyRouted="false" />
-        <AssociationConnector Association="QuanLySieuThiModel.FK__DANGNHAP__MatKha__49C3F6B7" ManuallyRouted="false" />
         <AssociationConnector Association="QuanLySieuThiModel.FK_HOADON_KHACHHANG" ManuallyRouted="false" />
         <AssociationConnector Association="QuanLySieuThiModel.FK_HOADON_NHANVIEN" ManuallyRouted="false" />
         <AssociationConnector Association="QuanLySieuThiModel.FK_NHANVIEN_PHONGBAN" ManuallyRouted="false" />

@@ -31,7 +31,6 @@ namespace Quan_Ly_Kinh_Doanh
         public byte[] Hinh { get; set; }
         public string DienThoai { get; set; }
     
-        public virtual DANGNHAP DANGNHAP { get; set; }
         public virtual ICollection<HOADON> HOADONs { get; set; }
         public virtual PHONGBAN PHONGBAN { get; set; }
         public virtual ICollection<PHONGBAN> PHONGBANs { get; set; }

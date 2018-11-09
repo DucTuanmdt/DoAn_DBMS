@@ -21,6 +21,7 @@ namespace Quan_Ly_Kinh_Doanh
     
         public string MaKH { get; set; }
         public string TenKH { get; set; }
+        public string GioiTinh { get; set; }
         public Nullable<System.DateTime> NgaySinh { get; set; }
         public string DiaChi { get; set; }
         public string DienThoai { get; set; }

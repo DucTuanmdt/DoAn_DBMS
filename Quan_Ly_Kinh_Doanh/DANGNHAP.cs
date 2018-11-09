@@ -16,7 +16,6 @@ namespace Quan_Ly_Kinh_Doanh
     {
         public string MaNV { get; set; }
         public string MatKhau { get; set; }
-    
-        public virtual NHANVIEN NHANVIEN { get; set; }
+        public Nullable<int> PhanQuyen { get; set; }
     }
 }

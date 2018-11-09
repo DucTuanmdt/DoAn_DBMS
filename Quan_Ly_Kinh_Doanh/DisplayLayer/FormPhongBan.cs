@@ -73,7 +73,7 @@ namespace Quan_Ly_Kinh_Doanh.DisplayLayer
             }
             catch
             {
-                MessageBox.Show("Không load được dữ liệu từ Table KhachHang. Lỗi rồi!");
+                MessageBox.Show("Không load được dữ liệu từ Table PhongBan. Lỗi rồi!");
             }
         }
 

@@ -28,6 +28,7 @@ namespace Quan_Ly_Kinh_Doanh.DisplayLayer
             txtMaKH.ReadOnly = !isEnable;
             txtTenKH.ReadOnly = !isEnable;
             dtpNgaySinh.Enabled = isEnable;
+            cbbGioiTinh.Enabled = isEnable;
         }
 
         void ResetTextBox()
@@ -37,6 +38,7 @@ namespace Quan_Ly_Kinh_Doanh.DisplayLayer
             txtDiaChi.ResetText();
             txtDienThoai.ResetText();
             dtpNgaySinh.ResetText();
+            cbbGioiTinh.ResetText();
         }
 
         void SetMenuEnable(bool isEnable)
@@ -65,6 +67,7 @@ namespace Quan_Ly_Kinh_Doanh.DisplayLayer
 
         void LoadData()
         {
+            KhoiTaoGiaTriComboBox();
             try
             {
                 dgvKHACHHANG.DataSource = dbKH.LayKhachHang();
@@ -134,7 +137,7 @@ namespace Quan_Ly_Kinh_Doanh.DisplayLayer
                 {
                     BLKhachHang blKH = new BLKhachHang();
                     blKH.ThemKhachHang(txtMaKH.Text, txtTenKH.Text, txtDienThoai.Text,
-                        dtpNgaySinh.Value, txtDiaChi.Text, ref err);
+                        dtpNgaySinh.Value, txtDiaChi.Text, cbbGioiTinh.Text, ref err);
                     LoadData();
                     MessageBox.Show("Đã thêm xong!");
                 }
@@ -149,7 +152,7 @@ namespace Quan_Ly_Kinh_Doanh.DisplayLayer
                 {
                     BLKhachHang blKH = new BLKhachHang();
                     blKH.CapNhatKhachHang(txtMaKH.Text, txtTenKH.Text, txtDienThoai.Text,
-                        dtpNgaySinh.Value, txtDiaChi.Text, ref err);
+                        dtpNgaySinh.Value, txtDiaChi.Text, cbbGioiTinh.Text, ref err);
                     LoadData();
                     MessageBox.Show("Đã sửa xong!");
                 }
@@ -182,6 +185,7 @@ namespace Quan_Ly_Kinh_Doanh.DisplayLayer
             txtDienThoai.Text = dgvKHACHHANG.Rows[r].Cells[count++].Value.ToString();
             dtpNgaySinh.Value = DateTime.Parse(dgvKHACHHANG.Rows[r].Cells[count++].Value.ToString());
             txtDiaChi.Text = dgvKHACHHANG.Rows[r].Cells[count++].Value.ToString();
+            cbbGioiTinh.Text = dgvKHACHHANG.Rows[r].Cells[count++].Value.ToString();
         }
 
         void LoadData2(DataTable dtSource)
@@ -244,7 +248,11 @@ namespace Quan_Ly_Kinh_Doanh.DisplayLayer
                 LoadData2(kq);
             }
         }
-
+        void KhoiTaoGiaTriComboBox()
+        {
+            List<string> gioitinh = new List<string>() { "Nam", "Nữ" };
+            cbbGioiTinh.DataSource = gioitinh;
+        }
 
     }
 }

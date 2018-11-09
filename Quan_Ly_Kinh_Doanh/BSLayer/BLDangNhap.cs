@@ -25,6 +25,15 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
             return dt;
         }
 
+        //string HienQuyen(int quyen)
+        //{
+        //    if (quyen == 1)
+        //        return "Admin";
+        //    else if (quyen == 2)
+        //        return "Moderator";
+        //    return "Nhân viên";
+        //}
+
         string CheMatKhau(string MatKhau)
         {
             string str = "";

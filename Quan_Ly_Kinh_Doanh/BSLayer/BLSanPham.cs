@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity.Infrastructure;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -30,7 +32,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
         public DataTable LaySanPham()
         {
             QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
-            var sps = from p in qlSTEntity.SANPHAMs select p;
+            var sps = qlSTEntity.SANPHAMs.SqlQuery("SELECT * FROM dbo.SANPHAM");
             DataTable dt = new DataTable();
             SetTableColumn(dt);
 
@@ -38,6 +40,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
             {
                 dt.Rows.Add(p.MaSP, p.TenSP, p.DonViTinh, p.Gia);
             }
+
             return dt;
         }
 
@@ -55,118 +58,93 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
 
         public bool ThemSanPham(string MaSP, string TenSP, string DonViTinh, string GiaBan, Image HinhSP, ref string err)
         {
-            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
-            SANPHAM sp = new SANPHAM();
-            sp.MaSP = MaSP;
-            sp.TenSP = TenSP;
-            sp.DonViTinh = DonViTinh;
-            float gia = 0;
-            float.TryParse(GiaBan, out gia);
-            sp.Gia = gia;
-
-            if (HinhSP != null)
+            try
             {
-                MemoryStream img = new MemoryStream();
-                HinhSP.Save(img, ImageFormat.Jpeg);
-                sp.Hinh = img.ToArray();
-            }
-            else
-            {
-                //Thêm hình mặc định
-            }
+                QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
 
-            qlSTEntity.SANPHAMs.Add(sp);
-            qlSTEntity.SaveChanges();
-
-            return true;
-        }
-
-        public bool CapNhatSanPham(string MaSP, string TenSP, string DonViTinh, string GiaBan, Image HinhSP, ref string err)
-        {
-            QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities();
-            var spQuery = (from p in qlKDEntity.SANPHAMs
-                           where p.MaSP == MaSP
-                           select p).SingleOrDefault();
-
-            if (spQuery != null)
-            {
-                spQuery.TenSP = TenSP;
-                spQuery.DonViTinh = DonViTinh;
-                float gia = 0;
-                float.TryParse(GiaBan, out gia);
-                spQuery.Gia = gia;
+                byte[] Hinh = null;
 
                 if (HinhSP != null)
                 {
                     MemoryStream img = new MemoryStream();
                     HinhSP.Save(img, ImageFormat.Jpeg);
-                    spQuery.Hinh = img.ToArray();
+                    Hinh = img.ToArray();
                 }
 
-                qlKDEntity.SaveChanges();
-            }
+                string query = string.Format("EXECUTE dbo.usp_SanPham_Them N'{0}', N'{1}', N'{2}', '{3}', @Hinh", MaSP, TenSP, DonViTinh, GiaBan);
+                qlSTEntity.Database.ExecuteSqlCommand(query, new SqlParameter("@Hinh", Hinh));
 
-            return true;
+                return true;
+            }
+            catch (Exception e) { }
+
+            return false;
+        }   
+
+        public bool CapNhatSanPham(string MaSP, string TenSP, string DonViTinh, string GiaBan, Image HinhSP, ref string err)
+        {
+            try
+            {
+                QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities();
+                byte[] Hinh = null;
+                if (HinhSP != null)
+                {
+                    MemoryStream img = new MemoryStream();
+                    HinhSP.Save(img, ImageFormat.Jpeg);
+                    Hinh = img.ToArray();
+                }
+                string query = string.Format("EXEC dbo.usp_SanPham_Sua N'{0}', N'{1}', N'{2}', '{3}', @Hinh", MaSP, TenSP, DonViTinh, GiaBan);
+                qlKDEntity.Database.ExecuteSqlCommand(query, new SqlParameter("@Hinh", Hinh));
+
+                return true;
+
+            } catch(Exception e) { }
+
+            return false;
         }
 
         public bool XoaSanPham(string MaSP, ref string err)
         {
-            QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities();
-
-            var cthds = from p in qlKDEntity.CHITIETHOADONs
-                        where p.MaSP == MaSP
-                        select p;
-
-            foreach (var item in cthds)
+            try
             {
-                qlKDEntity.CHITIETHOADONs.Remove(item);
-            }
+                QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities();
+                string query = string.Format("EXEC dbo.usp_SanPham_Xoa N'{0}'", MaSP);
+                qlKDEntity.Database.ExecuteSqlCommand(query);
+                
+                return true;
+            } catch(Exception e) { }
 
-            SANPHAM sp = new SANPHAM();
-            sp.MaSP = MaSP;
-
-            qlKDEntity.SANPHAMs.Attach(sp);
-            qlKDEntity.SANPHAMs.Remove(sp);
-
-            qlKDEntity.SaveChanges();
-
-            return true;
+            return false;
         }
-        
+
         public string SinhMaSPMoi(string MaCuoi)
         {
-            int mamoi = int.Parse(MaCuoi.Substring(2)) + 1;
-
-            return "SP" + mamoi.ToString("D2");
+            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
+            string mamoi = qlSTEntity.Database.SqlQuery<string>("SELECT dbo.func_SanPham_SinhMa()").Single().ToString().Trim();
+            return mamoi;
         }
 
         public DataTable LaySanPhamTheoTimKiem(KieuTimKiemSanPham kieuTimKiem, bool isLonHon, string chuoiCanTim)
         {
             QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
-            IQueryable<SANPHAM> sps;
+            DbSqlQuery<Quan_Ly_Kinh_Doanh.SANPHAM> sps;
+            string query = "";
             if (kieuTimKiem == KieuTimKiemSanPham.THEO_TEN)
-                sps = from p in qlSTEntity.SANPHAMs
-                      where chuoiCanTim.Contains(p.TenSP)
-                      || p.TenSP.Contains(chuoiCanTim)
-                      select p;
+            {
+                query = string.Format("SELECT * FROM dbo.func_SanPham_TimTheoTen(N'{0}')", chuoiCanTim);
+            }
             else
             {
-                int gia = 0;
-                int.TryParse(chuoiCanTim, out gia);
-
                 if (isLonHon == true)
                 {
-                    sps = from p in qlSTEntity.SANPHAMs
-                          where p.Gia > gia
-                          select p;
+                    query = string.Format("SELECT * FROM dbo.func_SanPham_TimGiaLonHon(N'{0}')", chuoiCanTim);
                 }
                 else
                 {
-                    sps = from p in qlSTEntity.SANPHAMs
-                          where p.Gia < gia
-                          select p;
+                    query = string.Format("SELECT * FROM dbo.func_SanPham_TimGiaNhoHon(N'{0}')", chuoiCanTim);
                 }
             }
+            sps = qlSTEntity.SANPHAMs.SqlQuery(query);
 
             DataTable dt = new DataTable();
             SetTableColumn(dt);

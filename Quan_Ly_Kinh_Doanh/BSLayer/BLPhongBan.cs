@@ -26,79 +26,63 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
         {
 
             QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
-            var pbs = from p in qlSTEntity.PHONGBANs select p;
+            var pbs = qlSTEntity.view_PhongBan.SqlQuery("SELECT * FROM dbo.view_PhongBan");
+
             DataTable dt = new DataTable();
             SetTableColumn(dt);
 
             foreach (var p in pbs)
             {
-                dt.Rows.Add(p.MaPB, p.TenPhong, p.NHANVIEN.Ho.Trim() + " "
-                    + p.NHANVIEN.TenLot.Trim() + " " + p.NHANVIEN.Ten.Trim());
+                dt.Rows.Add(p.MaPB, p.TenPhong, p.TenTruongPhong);
             }
             return dt;
         }
 
         public bool ThemPhongBan(string MaPB, string TenPhong, string TruongPhong, ref string err)
         {
-            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
-            PHONGBAN pb = new PHONGBAN();
+            try
+            {
+                QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
+                string query = string.Format("EXEC dbo.usp_PhongBan_Them N'{0}', N'{1}', N'{2}'", MaPB, TenPhong, LayMaNV(TruongPhong));
+                qlSTEntity.Database.ExecuteSqlCommand(query);
 
-            pb.MaPB = MaPB;
-            pb.TenPhong = TenPhong;
-            pb.TruongPhong = LayMaNV(TruongPhong);
-
-            qlSTEntity.PHONGBANs.Add(pb);
-            qlSTEntity.SaveChanges();
-
-            return true;
+                return true;
+            } catch(Exception e) { }
+            return false;
         }
 
         public bool CapNhatPhongBan(string MaPB, string TenPhong, string TruongPhong, ref string err)
         {
-            QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities();
-            var pbQuery = (from p in qlKDEntity.PHONGBANs
-                           where p.MaPB == MaPB
-                           select p).SingleOrDefault();
-
-            if (pbQuery != null)
+            try
             {
-                pbQuery.TenPhong = TenPhong;
-                pbQuery.TruongPhong = LayMaNV(TruongPhong);
+                QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities();
+                string query = string.Format("EXEC dbo.usp_PhongBan_Sua N'{0}', N'{1}', N'{2}'", MaPB, TenPhong, LayMaNV(TruongPhong));
+                qlKDEntity.Database.ExecuteSqlCommand(query);
 
-                qlKDEntity.SaveChanges();
-            }
-
-            return true;
+                return true;
+            } catch(Exception e) { }
+            return false;
         }
 
         public bool XoaPhongBan(string MaPB, ref string err)
         {
-            QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities();
-
-            var nvs = (from p in qlKDEntity.NHANVIENs
-                       where p.Phong == MaPB
-                       select p);
-            foreach (var item in nvs)
+            try
             {
-                qlKDEntity.NHANVIENs.Remove(item);
-            }
+                QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities();
+                string query = string.Format("EXEC dbo.usp_PhongBan_Xoa N'{0}'", MaPB);
+                qlKDEntity.Database.ExecuteSqlCommand(query);
 
-            PHONGBAN pb = new PHONGBAN();
-            pb.MaPB = MaPB;
+                return true;
+            }catch(Exception e) { }
 
-            qlKDEntity.PHONGBANs.Attach(pb);
-            qlKDEntity.PHONGBANs.Remove(pb);
-
-            qlKDEntity.SaveChanges();
-
-            return true;
+            return false;
         }
 
         public string SinhMaPBMoi(string MaCuoi)
         {
-            int mamoi = int.Parse(MaCuoi.Substring(1)) + 1;
-
-            return "P" + mamoi.ToString("D2");
+            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
+            string mamoi = qlSTEntity.Database.SqlQuery<string>("SELECT dbo.func_PhongBan_SinhMa()").Single().ToString().Trim();
+            return mamoi;
         }
 
         public List<string> LayDSTenNV()
@@ -127,31 +111,23 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
         public DataTable LayPhongBanTheoTimKiem(KieuTimKiemPhongBan kieuTimKiem, string chuoiCanTim)
         {
             QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
-            IQueryable<PHONGBAN> sps;
+            DataTable dt = new DataTable();
+            SetTableColumn(dt);
             if (kieuTimKiem == KieuTimKiemPhongBan.THEO_TEN_PHONG)
             {
-                sps = from p in qlSTEntity.PHONGBANs
-                      where chuoiCanTim.Contains(p.TenPhong)
-                      || p.TenPhong.Contains(chuoiCanTim)
-                      select p;
+                var sps = qlSTEntity.func_PhongBan_TimTheoTenPhong(chuoiCanTim);
+                foreach (var p in sps)
+                {
+                    dt.Rows.Add(p.MaPB, p.TenPhong, p.TenTruongPhong);
+                }
             }
             else
             {
-                sps = from p in qlSTEntity.PHONGBANs
-                      where chuoiCanTim.Contains(p.NHANVIEN.Ho.Trim() + " "
-                    + p.NHANVIEN.TenLot.Trim() + " " + p.NHANVIEN.Ten.Trim())
-                      || (p.NHANVIEN.Ho.Trim() + " " + p.NHANVIEN.TenLot.Trim() + " " 
-                      + p.NHANVIEN.Ten.Trim()).Contains(chuoiCanTim)
-                      select p;
-            }
-
-            DataTable dt = new DataTable();
-            SetTableColumn(dt);
-
-            foreach (var p in sps)
-            {
-                dt.Rows.Add(p.MaPB, p.TenPhong, p.NHANVIEN.Ho.Trim() + " "
-                    + p.NHANVIEN.TenLot.Trim() + " " + p.NHANVIEN.Ten.Trim());
+                var sps2 = qlSTEntity.func_PhongBan_TimTheoTenTruongPhong(chuoiCanTim);
+                foreach (var p in sps2)
+                {
+                    dt.Rows.Add(p.MaPB, p.TenPhong, p.TenTruongPhong);
+                }
             }
 
             return dt;

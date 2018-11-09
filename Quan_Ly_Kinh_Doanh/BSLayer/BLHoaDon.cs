@@ -27,15 +27,13 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
         {
 
             QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
-            var khs = from p in qlSTEntity.HOADONs select p;
             DataTable dt = new DataTable();
             SetTableColumn(dt);
+            var khs = qlSTEntity.view_HoaDon.SqlQuery("SELECT * FROM dbo.view_HoaDon");
 
             foreach (var p in khs)
             {
-                dt.Rows.Add(p.MaHD, p.KHACHHANG.TenKH, p.NHANVIEN.Ho.Trim() + " "
-                    + p.NHANVIEN.TenLot.Trim() + " " + p.NHANVIEN.Ten.Trim()
-                    , p.NgayLapHD, p.NgayNhanHang);
+                dt.Rows.Add(p.MaHD, p.TenKH, p.TenNV, p.NgayLapHD, p.NgayNhanHang);
             }
             return dt;
         }
@@ -43,62 +41,45 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
         public bool ThemHoaDon(string MaHD, string TenKH, string TenNV,
             DateTime NgayLapHD, DateTime NgayNhanHang, ref string err)
         {
-            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
-            HOADON kh = new HOADON();
-            kh.MaHD = MaHD;
-            kh.MaKH = LayMaKH(TenKH);
-            kh.MaNV = LayMaNV(TenNV);
-            kh.NgayLapHD = NgayLapHD;
-            kh.NgayNhanHang = NgayNhanHang;
+            try
+            {
+                QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
 
-            qlSTEntity.HOADONs.Add(kh);
-            qlSTEntity.SaveChanges();
+                string query = string.Format("EXEC dbo.usp_HoaDon_Them N'{0}', N'{1}', N'{2}', '{3}', '{4}'", MaHD, LayMaKH(TenKH), LayMaNV(TenNV), NgayLapHD, NgayNhanHang);
+                qlSTEntity.Database.ExecuteSqlCommand(query);
 
-            return true;
+                return true;
+            } catch(Exception e) { }
+
+            return false;
         }
 
         public bool CapNhatHoaDon(string MaHD, string TenKH, string TenNV,
             DateTime NgayLapHD, DateTime NgayNhanHang, ref string err)
         {
-            QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities();
-            var khQuery = (from p in qlKDEntity.HOADONs
-                           where p.MaHD == MaHD
-                           select p).SingleOrDefault();
-
-            if (khQuery != null)
+            try
             {
-                khQuery.MaKH = LayMaKH(TenKH);
-                khQuery.MaNV = LayMaNV(TenNV);
-                khQuery.NgayLapHD = NgayLapHD;
-                khQuery.NgayNhanHang = NgayNhanHang;
+                QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities();
+                string query = string.Format("EXEC dbo.usp_HoaDon_Sua N'{0}', N'{1}', N'{2}', '{3}', '{4}'", MaHD, LayMaKH(TenKH), LayMaNV(TenNV), NgayLapHD, NgayNhanHang);
+                qlKDEntity.Database.ExecuteSqlCommand(query);
 
-                qlKDEntity.SaveChanges();
-            }
-
-            return true;
+                return true;
+            } catch(Exception e) { }
+            return false;
         }
 
         public bool XoaHoaDon(string MaHD, ref string err)
         {
-            QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities();
-
-            var nvs = (from p in qlKDEntity.CHITIETHOADONs
-                       where p.MaHD == MaHD
-                       select p);
-            foreach (var item in nvs)
+            try
             {
-                qlKDEntity.CHITIETHOADONs.Remove(item);
-            }
+                QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities();
+                string query = string.Format("EXEC dbo.usp_HoaDon_Xoa N'{0}'", MaHD);
+                qlKDEntity.Database.ExecuteSqlCommand(query);
 
-            HOADON kh = new HOADON();
-            kh.MaHD = MaHD;
+                return true;
+            } catch(Exception e) { }
 
-            qlKDEntity.HOADONs.Attach(kh);
-            qlKDEntity.HOADONs.Remove(kh);
-
-            qlKDEntity.SaveChanges();
-
-            return true;
+            return false;
         }
 
         public List<string> LayDSTenKH()
@@ -149,40 +130,32 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
 
         public string SinhMaHDMoi(string MaCuoi)
         {
-            int mamoi = int.Parse(MaCuoi.Substring(2)) + 1;
-
-            return "HD" + mamoi.ToString("D2");
+            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
+            string mamoi = qlSTEntity.Database.SqlQuery<string>("SELECT dbo.func_HoaDon_SinhMa()").Single().ToString().Trim();
+            return mamoi;
         }
 
         public DataTable LayHoaDonTheoTimKiem(KieuTimKiemHoaDon kieuTimKiem, string chuoiCanTim)
         {
             QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
-            IQueryable<HOADON> sps;
-            if (kieuTimKiem == KieuTimKiemHoaDon.THEO_KH)
-            {
-                sps = from p in qlSTEntity.HOADONs
-                      where chuoiCanTim.Contains(p.KHACHHANG.TenKH)
-                      || p.KHACHHANG.TenKH.Contains(chuoiCanTim)
-                      select p;
-            }
-            else
-            {
-                sps = from p in qlSTEntity.HOADONs
-                      where chuoiCanTim.Contains(p.NHANVIEN.Ho.Trim() + " "
-                    + p.NHANVIEN.TenLot.Trim() + " " + p.NHANVIEN.Ten.Trim())
-                      || (p.NHANVIEN.Ho.Trim() + " " + p.NHANVIEN.TenLot.Trim() + " "
-                      + p.NHANVIEN.Ten.Trim()).Contains(chuoiCanTim)
-                      select p;
-            }
-
             DataTable dt = new DataTable();
             SetTableColumn(dt);
 
-            foreach (var p in sps)
+            if (kieuTimKiem == KieuTimKiemHoaDon.THEO_KH)
             {
-                dt.Rows.Add(p.MaHD, p.KHACHHANG.TenKH, p.NHANVIEN.Ho.Trim() + " "
-                    + p.NHANVIEN.TenLot.Trim() + " " + p.NHANVIEN.Ten.Trim()
-                    , p.NgayLapHD, p.NgayNhanHang);
+                var sps = qlSTEntity.func_HoaDon_TimTheoTenKhachHang(chuoiCanTim);
+                foreach (var p in sps)
+                {
+                    dt.Rows.Add(p.MaHD, p.TenKH, p.TenNV, p.NgayLapHD, p.NgayNhanHang);
+                }
+            }
+            else
+            {
+                var sps = qlSTEntity.func_HoaDon_TimTheoTenNhanVien(chuoiCanTim);
+                foreach (var p in sps)
+                {
+                    dt.Rows.Add(p.MaHD, p.TenKH, p.TenNV, p.NgayLapHD, p.NgayNhanHang);
+                }
             }
 
             return dt;
