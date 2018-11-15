@@ -19,6 +19,7 @@ namespace Quan_Ly_Kinh_Doanh.DisplayLayer
         //Test xong thì sửa lại dòng này thành isLoginSuccess = false;
         public static bool isLoginSuccess = false;
         private string _conString { get { return System.Configuration.ConfigurationManager.ConnectionStrings["QuanLySieuThiEntities"].ConnectionString; } }
+        private string tenTabThongKe = "";
 
         public FormMain()
         {
@@ -137,9 +138,20 @@ namespace Quan_Ly_Kinh_Doanh.DisplayLayer
 
         private void btnDangNhap_Click(object sender, EventArgs e)
         {
-            ThemTabPage(new FormQLDangNhap());
+            FormQLDangNhap frmDangNhap = new FormQLDangNhap();
+            frmDangNhap.PasswordChanged += XoaTabThongKe;
+            ThemTabPage(frmDangNhap);
         }
-
+        void XoaTabThongKe()
+        {
+            for (int i = 0; i < tabcHienThi.TabPages.Count; i++)
+            {
+                if (tabcHienThi.TabPages[i].Text.Trim() == tenTabThongKe)
+                {
+                    tabcHienThi.TabPages.Remove(tabcHienThi.TabPages[i]);
+                }
+            }
+        }
         private void ThoatToolStripMenuItem_Click(object sender, EventArgs e)
         {
             XoaTatCaTabPage();
@@ -161,7 +173,11 @@ namespace Quan_Ly_Kinh_Doanh.DisplayLayer
         {
             try
             {
-                ThemTabPage(new ThongKe());
+                XoaTabThongKe();
+                ThongKe frmThongKe = new ThongKe();
+                tenTabThongKe = frmThongKe.Text.Trim();
+
+                ThemTabPage(frmThongKe);
             }
             catch (Exception e2)
             {
@@ -191,11 +207,17 @@ namespace Quan_Ly_Kinh_Doanh.DisplayLayer
         //Kiểm tra Server máy chủ có tồn tại hay không
         public static bool CheckPing(string ip)
         {
-            System.Net.NetworkInformation.Ping pingSender = new Ping();
-            PingReply reply = pingSender.Send(ip);
+            try
+            {
+                System.Net.NetworkInformation.Ping pingSender = new Ping();
+                PingReply reply = pingSender.Send(ip);
 
-            if (reply.Status == IPStatus.Success)
-                return true;
+                if (reply.Status == IPStatus.Success)
+                    return true;
+            } catch (Exception e)
+            {
+                return false;
+            }
 
             return false;
         }
@@ -246,6 +268,10 @@ namespace Quan_Ly_Kinh_Doanh.DisplayLayer
             connectionStringsSection.ConnectionStrings["QuanLySieuThiEntities"].ConnectionString = myString;
             config.Save();
             ConfigurationManager.RefreshSection("connectionStrings");
+
+            string newConStringThongKe = @"data source=" + DtaSrc + ";initial catalog=" + DtaBs + ";" + "user id=" + Username + ";password=" + Password;
+            Properties.Settings.Default.QuanLySieuThiConnectionString = newConStringThongKe;
+            Properties.Settings.Default.Save();
 
             return true;
         }

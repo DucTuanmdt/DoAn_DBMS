@@ -64,7 +64,9 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
                 qlSTEntity.Database.ExecuteSqlCommand(query);
 
                 if (currentUsername == Username)
+                {
                     DoiConnectionString(MatKhau);
+                }
 
                 return true;
             }
@@ -122,6 +124,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
         public void DoiConnectionString(string MatKKhau)
         {
             string newConnectionString = _conString;
+
             int startIndex = _conString.IndexOf("password");
             int endIndex = _conString.IndexOf(";", startIndex);
             string oldPass = newConnectionString.Substring(startIndex, endIndex - startIndex);
@@ -134,6 +137,15 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
             connectionStringsSection.ConnectionStrings["QuanLySieuThiEntities"].ConnectionString = newConnectionString;
             config.Save();
             ConfigurationManager.RefreshSection("connectionStrings");
+
+            string temold = Properties.Settings.Default.QuanLySieuThiConnectionString;
+            newConnectionString = Properties.Settings.Default.QuanLySieuThiConnectionString;
+            startIndex = newConnectionString.IndexOf("password");
+            endIndex = newConnectionString.Length - 1;
+            newConnectionString = newConnectionString.Replace(oldPass, newPass);
+            Properties.Settings.Default.QuanLySieuThiConnectionString = newConnectionString;
+            Properties.Settings.Default.Save();
+            string temp = Properties.Settings.Default.QuanLySieuThiConnectionString;
         }
     }
 }

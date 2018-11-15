@@ -11,8 +11,12 @@ using System.Windows.Forms;
 
 namespace Quan_Ly_Kinh_Doanh.DisplayLayer
 {
+    public delegate void ChangePasswordHander();
+
     public partial class FormQLDangNhap : Form
     {
+        public ChangePasswordHander PasswordChanged;
+
         public FormQLDangNhap()
         {
             InitializeComponent();
@@ -111,14 +115,16 @@ namespace Quan_Ly_Kinh_Doanh.DisplayLayer
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //MessageBox.Show("Hãy nhập lại mật khẩu cũ!", "Yêu cầu", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //txtMatKhau.ReadOnly = false;
-            //txtMatKhau.Focus();
+
             SetMenuEnable(true);
             dgvDangNhap.Enabled = false;
             txtMatKhau.ReadOnly = false;
+            txtMatKhau.ResetText();
             cbbPhanQuyen.Enabled = true;
-            //ResetTextBox();
+            if (txtUsername.Text == Properties.Settings.Default.Username)
+            {
+                cbbPhanQuyen.Enabled = false;
+            }
         }
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -163,7 +169,14 @@ namespace Quan_Ly_Kinh_Doanh.DisplayLayer
                 {
                     BLDangNhap blKH = new BLDangNhap();
                     blKH.CapNhatDangNhap(txtUsername.Text, txtMatKhau.Text, cbbPhanQuyen.Text, ref err);
+
+                    if (txtUsername.Text == Properties.Settings.Default.Username)
+                    {
+                        PasswordChanged();
+                    }
+
                     LoadData();
+
                     MessageBox.Show("Đã sửa xong!");
                 }
                 catch
