@@ -55,6 +55,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.Entity.Design" />
@@ -107,6 +108,12 @@
     </Compile>
     <Compile Include="DisplayLayer\FormKhachHang.Designer.cs">
       <DependentUpon>FormKhachHang.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DisplayLayer\FormLoginServer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DisplayLayer\FormLoginServer.Designer.cs">
+      <DependentUpon>FormLoginServer.cs</DependentUpon>
     </Compile>
     <Compile Include="DisplayLayer\FormMain.cs">
       <SubType>Form</SubType>
@@ -284,6 +291,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DisplayLayer\FormKhachHang.resx">
       <DependentUpon>FormKhachHang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DisplayLayer\FormLoginServer.resx">
+      <DependentUpon>FormLoginServer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DisplayLayer\FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>

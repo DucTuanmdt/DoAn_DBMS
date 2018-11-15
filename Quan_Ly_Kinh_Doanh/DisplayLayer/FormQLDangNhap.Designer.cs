@@ -45,22 +45,20 @@
             this.dgvDangNhap = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.pnlHienThi = new System.Windows.Forms.Panel();
-            this.cbbMaNV = new System.Windows.Forms.ComboBox();
-            this.pnlNhapLaiMatKhau = new System.Windows.Forms.Panel();
-            this.txtNhapLaiMatKhau = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.cbbPhanQuyen = new System.Windows.Forms.ComboBox();
+            this.txtUsername = new System.Windows.Forms.TextBox();
             this.txtMatKhau = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.btnXacNhan = new System.Windows.Forms.Button();
             this.menuStripMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDangNhap)).BeginInit();
             this.pnlHienThi.SuspendLayout();
-            this.pnlNhapLaiMatKhau.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStripMain
             // 
             this.menuStripMain.BackColor = System.Drawing.Color.Beige;
+            this.menuStripMain.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.reloadToolStripMenuItem,
             this.addToolStripMenuItem,
@@ -71,7 +69,8 @@
             this.othersToolStripMenuItem});
             this.menuStripMain.Location = new System.Drawing.Point(0, 0);
             this.menuStripMain.Name = "menuStripMain";
-            this.menuStripMain.Size = new System.Drawing.Size(620, 24);
+            this.menuStripMain.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
+            this.menuStripMain.Size = new System.Drawing.Size(827, 28);
             this.menuStripMain.TabIndex = 0;
             this.menuStripMain.Text = "menuStrip1";
             // 
@@ -79,7 +78,7 @@
             // 
             this.reloadToolStripMenuItem.Image = global::Quan_Ly_Kinh_Doanh.Properties.Resources.reload2;
             this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
-            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
+            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(88, 24);
             this.reloadToolStripMenuItem.Text = "Reload";
             this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
             // 
@@ -87,7 +86,7 @@
             // 
             this.addToolStripMenuItem.Image = global::Quan_Ly_Kinh_Doanh.Properties.Resources.add;
             this.addToolStripMenuItem.Name = "addToolStripMenuItem";
-            this.addToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+            this.addToolStripMenuItem.Size = new System.Drawing.Size(69, 24);
             this.addToolStripMenuItem.Text = "Add";
             this.addToolStripMenuItem.Click += new System.EventHandler(this.addToolStripMenuItem_Click);
             // 
@@ -95,7 +94,7 @@
             // 
             this.editToolStripMenuItem.Image = global::Quan_Ly_Kinh_Doanh.Properties.Resources.edit;
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(67, 24);
             this.editToolStripMenuItem.Text = "Edit";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
@@ -103,7 +102,7 @@
             // 
             this.deleteToolStripMenuItem.Image = global::Quan_Ly_Kinh_Doanh.Properties.Resources.delete;
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(85, 24);
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
@@ -111,7 +110,7 @@
             // 
             this.saveToolStripMenuItem.Image = global::Quan_Ly_Kinh_Doanh.Properties.Resources.save;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(72, 24);
             this.saveToolStripMenuItem.Text = "&Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
@@ -119,7 +118,7 @@
             // 
             this.cancelToolStripMenuItem.Image = global::Quan_Ly_Kinh_Doanh.Properties.Resources.cancel;
             this.cancelToolStripMenuItem.Name = "cancelToolStripMenuItem";
-            this.cancelToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
+            this.cancelToolStripMenuItem.Size = new System.Drawing.Size(85, 24);
             this.cancelToolStripMenuItem.Text = "Cancel";
             this.cancelToolStripMenuItem.Click += new System.EventHandler(this.cancelToolStripMenuItem_Click);
             // 
@@ -130,7 +129,7 @@
             this.findToolStripMenuItem});
             this.othersToolStripMenuItem.Image = global::Quan_Ly_Kinh_Doanh.Properties.Resources.other2;
             this.othersToolStripMenuItem.Name = "othersToolStripMenuItem";
-            this.othersToolStripMenuItem.Size = new System.Drawing.Size(70, 20);
+            this.othersToolStripMenuItem.Size = new System.Drawing.Size(84, 24);
             this.othersToolStripMenuItem.Text = "Others";
             // 
             // sortToolStripMenuItem
@@ -139,19 +138,19 @@
             this.ascendingToolStripMenuItem,
             this.descendingToolStripMenuItem});
             this.sortToolStripMenuItem.Name = "sortToolStripMenuItem";
-            this.sortToolStripMenuItem.Size = new System.Drawing.Size(97, 22);
+            this.sortToolStripMenuItem.Size = new System.Drawing.Size(112, 26);
             this.sortToolStripMenuItem.Text = "Sort";
             // 
             // ascendingToolStripMenuItem
             // 
             this.ascendingToolStripMenuItem.Name = "ascendingToolStripMenuItem";
-            this.ascendingToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.ascendingToolStripMenuItem.Size = new System.Drawing.Size(162, 26);
             this.ascendingToolStripMenuItem.Text = "Ascending";
             // 
             // descendingToolStripMenuItem
             // 
             this.descendingToolStripMenuItem.Name = "descendingToolStripMenuItem";
-            this.descendingToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.descendingToolStripMenuItem.Size = new System.Drawing.Size(162, 26);
             this.descendingToolStripMenuItem.Text = "Descending";
             // 
             // findToolStripMenuItem
@@ -160,125 +159,111 @@
             this.byNameToolStripMenuItem,
             this.byIDToolStripMenuItem});
             this.findToolStripMenuItem.Name = "findToolStripMenuItem";
-            this.findToolStripMenuItem.Size = new System.Drawing.Size(97, 22);
+            this.findToolStripMenuItem.Size = new System.Drawing.Size(112, 26);
             this.findToolStripMenuItem.Text = "&Find";
             // 
             // byNameToolStripMenuItem
             // 
             this.byNameToolStripMenuItem.Name = "byNameToolStripMenuItem";
-            this.byNameToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.byNameToolStripMenuItem.Size = new System.Drawing.Size(144, 26);
             this.byNameToolStripMenuItem.Text = "By Name";
             // 
             // byIDToolStripMenuItem
             // 
             this.byIDToolStripMenuItem.Name = "byIDToolStripMenuItem";
-            this.byIDToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.byIDToolStripMenuItem.Size = new System.Drawing.Size(144, 26);
             this.byIDToolStripMenuItem.Text = "By ID";
             // 
             // dgvDangNhap
             // 
             this.dgvDangNhap.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvDangNhap.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvDangNhap.Location = new System.Drawing.Point(12, 108);
+            this.dgvDangNhap.Location = new System.Drawing.Point(16, 133);
+            this.dgvDangNhap.Margin = new System.Windows.Forms.Padding(4);
             this.dgvDangNhap.Name = "dgvDangNhap";
-            this.dgvDangNhap.Size = new System.Drawing.Size(595, 284);
+            this.dgvDangNhap.Size = new System.Drawing.Size(793, 350);
             this.dgvDangNhap.TabIndex = 1;
             this.dgvDangNhap.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPHONGBAN_CellClick);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(2, 21);
+            this.label1.Location = new System.Drawing.Point(3, 26);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(40, 13);
+            this.label1.Size = new System.Drawing.Size(73, 17);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Mã NV";
+            this.label1.Text = "Username";
             // 
             // pnlHienThi
             // 
-            this.pnlHienThi.Controls.Add(this.btnXacNhan);
-            this.pnlHienThi.Controls.Add(this.cbbMaNV);
-            this.pnlHienThi.Controls.Add(this.pnlNhapLaiMatKhau);
+            this.pnlHienThi.Controls.Add(this.label3);
+            this.pnlHienThi.Controls.Add(this.cbbPhanQuyen);
+            this.pnlHienThi.Controls.Add(this.txtUsername);
             this.pnlHienThi.Controls.Add(this.txtMatKhau);
             this.pnlHienThi.Controls.Add(this.label2);
             this.pnlHienThi.Controls.Add(this.label1);
-            this.pnlHienThi.Location = new System.Drawing.Point(12, 27);
+            this.pnlHienThi.Location = new System.Drawing.Point(16, 33);
+            this.pnlHienThi.Margin = new System.Windows.Forms.Padding(4);
             this.pnlHienThi.Name = "pnlHienThi";
-            this.pnlHienThi.Size = new System.Drawing.Size(606, 75);
+            this.pnlHienThi.Size = new System.Drawing.Size(808, 92);
             this.pnlHienThi.TabIndex = 4;
             // 
-            // cbbMaNV
+            // label3
             // 
-            this.cbbMaNV.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbbMaNV.FormattingEnabled = true;
-            this.cbbMaNV.Location = new System.Drawing.Point(62, 13);
-            this.cbbMaNV.Name = "cbbMaNV";
-            this.cbbMaNV.Size = new System.Drawing.Size(69, 21);
-            this.cbbMaNV.TabIndex = 11;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(578, 26);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(78, 17);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "Quyền hạn";
             // 
-            // pnlNhapLaiMatKhau
+            // cbbPhanQuyen
             // 
-            this.pnlNhapLaiMatKhau.Controls.Add(this.txtNhapLaiMatKhau);
-            this.pnlNhapLaiMatKhau.Controls.Add(this.label4);
-            this.pnlNhapLaiMatKhau.Location = new System.Drawing.Point(365, 10);
-            this.pnlNhapLaiMatKhau.Name = "pnlNhapLaiMatKhau";
-            this.pnlNhapLaiMatKhau.Size = new System.Drawing.Size(231, 31);
-            this.pnlNhapLaiMatKhau.TabIndex = 5;
+            this.cbbPhanQuyen.FormattingEnabled = true;
+            this.cbbPhanQuyen.Location = new System.Drawing.Point(660, 22);
+            this.cbbPhanQuyen.Name = "cbbPhanQuyen";
+            this.cbbPhanQuyen.Size = new System.Drawing.Size(133, 24);
+            this.cbbPhanQuyen.TabIndex = 3;
             // 
-            // txtNhapLaiMatKhau
+            // txtUsername
             // 
-            this.txtNhapLaiMatKhau.Location = new System.Drawing.Point(101, 3);
-            this.txtNhapLaiMatKhau.Name = "txtNhapLaiMatKhau";
-            this.txtNhapLaiMatKhau.Size = new System.Drawing.Size(120, 20);
-            this.txtNhapLaiMatKhau.TabIndex = 9;
-            this.txtNhapLaiMatKhau.UseSystemPasswordChar = true;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(2, 10);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(93, 13);
-            this.label4.TabIndex = 8;
-            this.label4.Text = "Nhập lại mật khẩu";
+            this.txtUsername.Location = new System.Drawing.Point(83, 23);
+            this.txtUsername.Name = "txtUsername";
+            this.txtUsername.Size = new System.Drawing.Size(130, 22);
+            this.txtUsername.TabIndex = 1;
             // 
             // txtMatKhau
             // 
-            this.txtMatKhau.Location = new System.Drawing.Point(233, 14);
+            this.txtMatKhau.Location = new System.Drawing.Point(369, 23);
+            this.txtMatKhau.Margin = new System.Windows.Forms.Padding(4);
             this.txtMatKhau.Name = "txtMatKhau";
-            this.txtMatKhau.Size = new System.Drawing.Size(112, 20);
-            this.txtMatKhau.TabIndex = 5;
+            this.txtMatKhau.Size = new System.Drawing.Size(135, 22);
+            this.txtMatKhau.TabIndex = 2;
             this.txtMatKhau.UseSystemPasswordChar = true;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(173, 21);
+            this.label2.Location = new System.Drawing.Point(298, 26);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(52, 13);
+            this.label2.Size = new System.Drawing.Size(66, 17);
             this.label2.TabIndex = 4;
             this.label2.Text = "Mật khẩu";
             // 
-            // btnXacNhan
-            // 
-            this.btnXacNhan.Location = new System.Drawing.Point(233, 40);
-            this.btnXacNhan.Name = "btnXacNhan";
-            this.btnXacNhan.Size = new System.Drawing.Size(67, 23);
-            this.btnXacNhan.TabIndex = 12;
-            this.btnXacNhan.Text = "Xác nhận";
-            this.btnXacNhan.UseVisualStyleBackColor = true;
-            this.btnXacNhan.Click += new System.EventHandler(this.btnXacNhan_Click);
-            // 
             // FormQLDangNhap
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(620, 413);
+            this.ClientSize = new System.Drawing.Size(827, 508);
             this.Controls.Add(this.pnlHienThi);
             this.Controls.Add(this.dgvDangNhap);
             this.Controls.Add(this.menuStripMain);
             this.MainMenuStrip = this.menuStripMain;
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FormQLDangNhap";
             this.Text = "Quản thông tin đăng nhập";
             this.Load += new System.EventHandler(this.FormPhongBan_Load);
@@ -287,8 +272,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvDangNhap)).EndInit();
             this.pnlHienThi.ResumeLayout(false);
             this.pnlHienThi.PerformLayout();
-            this.pnlNhapLaiMatKhau.ResumeLayout(false);
-            this.pnlNhapLaiMatKhau.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -315,10 +298,8 @@
         private System.Windows.Forms.Panel pnlHienThi;
         private System.Windows.Forms.TextBox txtMatKhau;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox txtNhapLaiMatKhau;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Panel pnlNhapLaiMatKhau;
-        private System.Windows.Forms.ComboBox cbbMaNV;
-        private System.Windows.Forms.Button btnXacNhan;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox cbbPhanQuyen;
+        private System.Windows.Forms.TextBox txtUsername;
     }
 }

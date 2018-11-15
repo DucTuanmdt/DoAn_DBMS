@@ -14,6 +14,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
 
     class BLPhongBan
     {
+        private string _conString { get { return System.Configuration.ConfigurationManager.ConnectionStrings["QuanLySieuThiEntities"].ConnectionString; } }
 
         void SetTableColumn(DataTable dt)
         {
@@ -25,7 +26,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
         public DataTable LayPhongBan()
         {
 
-            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
+            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities(_conString);
             var pbs = qlSTEntity.view_PhongBan.SqlQuery("SELECT * FROM dbo.view_PhongBan");
 
             DataTable dt = new DataTable();
@@ -42,7 +43,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
         {
             try
             {
-                QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
+                QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities(_conString);
                 string query = string.Format("EXEC dbo.usp_PhongBan_Them N'{0}', N'{1}', N'{2}'", MaPB, TenPhong, LayMaNV(TruongPhong));
                 qlSTEntity.Database.ExecuteSqlCommand(query);
 
@@ -55,7 +56,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
         {
             try
             {
-                QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities();
+                QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities(_conString);
                 string query = string.Format("EXEC dbo.usp_PhongBan_Sua N'{0}', N'{1}', N'{2}'", MaPB, TenPhong, LayMaNV(TruongPhong));
                 qlKDEntity.Database.ExecuteSqlCommand(query);
 
@@ -68,7 +69,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
         {
             try
             {
-                QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities();
+                QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities(_conString);
                 string query = string.Format("EXEC dbo.usp_PhongBan_Xoa N'{0}'", MaPB);
                 qlKDEntity.Database.ExecuteSqlCommand(query);
 
@@ -80,7 +81,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
 
         public string SinhMaPBMoi(string MaCuoi)
         {
-            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
+            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities(_conString);
             string mamoi = qlSTEntity.Database.SqlQuery<string>("SELECT dbo.func_PhongBan_SinhMa()").Single().ToString().Trim();
             return mamoi;
         }
@@ -88,7 +89,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
         public List<string> LayDSTenNV()
         {
             List<string> dsTenNV = new List<string>();
-            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
+            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities(_conString);
             var sps = from p in qlSTEntity.NHANVIENs orderby p.Ten ascending select p;
 
             foreach (var item in sps)
@@ -101,7 +102,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
 
         string LayMaNV(string TenNV)
         {
-            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
+            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities(_conString);
             var sps = (from p in qlSTEntity.NHANVIENs
                        where (p.Ho.Trim() + " " + p.TenLot.Trim() + " " + p.Ten.Trim()) == TenNV.Trim()
                        select p).SingleOrDefault();
@@ -110,7 +111,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
 
         public DataTable LayPhongBanTheoTimKiem(KieuTimKiemPhongBan kieuTimKiem, string chuoiCanTim)
         {
-            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
+            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities(_conString);
             DataTable dt = new DataTable();
             SetTableColumn(dt);
             if (kieuTimKiem == KieuTimKiemPhongBan.THEO_TEN_PHONG)

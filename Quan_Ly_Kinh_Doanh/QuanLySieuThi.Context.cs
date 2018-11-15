@@ -15,11 +15,17 @@ namespace Quan_Ly_Kinh_Doanh
     using System.Data.Objects;
     using System.Data.Objects.DataClasses;
     using System.Linq;
-    
+
     public partial class QuanLySieuThiEntities : DbContext
     {
         public QuanLySieuThiEntities()
             : base("name=QuanLySieuThiEntities")
+        {
+
+        }
+
+        public QuanLySieuThiEntities(String connString)
+            : base(connString)
         {
         }
     
@@ -219,6 +225,19 @@ namespace Quan_Ly_Kinh_Doanh
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_SanPham_TimTheoTen_Result>("[QuanLySieuThiEntities].[func_SanPham_TimTheoTen](@ChuoiCanTim)", chuoiCanTimParameter);
         }
     
+        public virtual int DoiPassNe(string username, string password)
+        {
+            var usernameParameter = username != null ?
+                new ObjectParameter("username", username) :
+                new ObjectParameter("username", typeof(string));
+    
+            var passwordParameter = password != null ?
+                new ObjectParameter("password", password) :
+                new ObjectParameter("password", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DoiPassNe", usernameParameter, passwordParameter);
+        }
+    
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {
             var diagramnameParameter = diagramname != null ?
@@ -369,8 +388,33 @@ namespace Quan_Ly_Kinh_Doanh
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_ChiTietHoaDon_Xoa", maHDParameter, maSPParameter);
         }
     
-        public virtual int usp_DangNhap_DoiMatKhau(string username, string password)
+        public virtual int usp_DangNhap_DoiMatKhau(string username, string oldpassword, string password, string confirmpassword)
         {
+            var usernameParameter = username != null ?
+                new ObjectParameter("username", username) :
+                new ObjectParameter("username", typeof(string));
+    
+            var oldpasswordParameter = oldpassword != null ?
+                new ObjectParameter("oldpassword", oldpassword) :
+                new ObjectParameter("oldpassword", typeof(string));
+    
+            var passwordParameter = password != null ?
+                new ObjectParameter("password", password) :
+                new ObjectParameter("password", typeof(string));
+    
+            var confirmpasswordParameter = confirmpassword != null ?
+                new ObjectParameter("confirmpassword", confirmpassword) :
+                new ObjectParameter("confirmpassword", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DangNhap_DoiMatKhau", usernameParameter, oldpasswordParameter, passwordParameter, confirmpasswordParameter);
+        }
+    
+        public virtual int usp_DangNhap_Sua(string usernametao, string username, string password, string phanquyen)
+        {
+            var usernametaoParameter = usernametao != null ?
+                new ObjectParameter("usernametao", usernametao) :
+                new ObjectParameter("usernametao", typeof(string));
+    
             var usernameParameter = username != null ?
                 new ObjectParameter("username", username) :
                 new ObjectParameter("username", typeof(string));
@@ -379,7 +423,45 @@ namespace Quan_Ly_Kinh_Doanh
                 new ObjectParameter("password", password) :
                 new ObjectParameter("password", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DangNhap_DoiMatKhau", usernameParameter, passwordParameter);
+            var phanquyenParameter = phanquyen != null ?
+                new ObjectParameter("phanquyen", phanquyen) :
+                new ObjectParameter("phanquyen", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DangNhap_Sua", usernametaoParameter, usernameParameter, passwordParameter, phanquyenParameter);
+        }
+    
+        public virtual int usp_DangNhap_Them(string usernametao, string username, string password, string phanquyen)
+        {
+            var usernametaoParameter = usernametao != null ?
+                new ObjectParameter("usernametao", usernametao) :
+                new ObjectParameter("usernametao", typeof(string));
+    
+            var usernameParameter = username != null ?
+                new ObjectParameter("username", username) :
+                new ObjectParameter("username", typeof(string));
+    
+            var passwordParameter = password != null ?
+                new ObjectParameter("password", password) :
+                new ObjectParameter("password", typeof(string));
+    
+            var phanquyenParameter = phanquyen != null ?
+                new ObjectParameter("phanquyen", phanquyen) :
+                new ObjectParameter("phanquyen", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DangNhap_Them", usernametaoParameter, usernameParameter, passwordParameter, phanquyenParameter);
+        }
+    
+        public virtual int usp_DangNhap_Xoa(string usernametao, string username)
+        {
+            var usernametaoParameter = usernametao != null ?
+                new ObjectParameter("usernametao", usernametao) :
+                new ObjectParameter("usernametao", typeof(string));
+    
+            var usernameParameter = username != null ?
+                new ObjectParameter("username", username) :
+                new ObjectParameter("username", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DangNhap_Xoa", usernametaoParameter, usernameParameter);
         }
     
         public virtual int usp_HoaDon_Sua(string maHD, string maKH, string maNV, Nullable<System.DateTime> ngayLapHD, Nullable<System.DateTime> ngayNhanHang)

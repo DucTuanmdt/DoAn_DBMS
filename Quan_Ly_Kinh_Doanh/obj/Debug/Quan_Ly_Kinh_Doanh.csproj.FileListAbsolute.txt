@@ -212,3 +212,4 @@ C:\Users\ASUS\Desktop\project\DoAnDBMS_QuanLySieuThi\Quan_Ly_Kinh_Doanh\obj\Debu
 C:\Users\ASUS\Desktop\project\DoAnDBMS_QuanLySieuThi\Quan_Ly_Kinh_Doanh\obj\Debug\Quan_Ly_Kinh_Doanh.csproj.CopyComplete
 C:\Users\ASUS\Desktop\project\DoAnDBMS_QuanLySieuThi\Quan_Ly_Kinh_Doanh\obj\Debug\Quan_Ly_Kinh_Doanh.exe
 C:\Users\ASUS\Desktop\project\DoAnDBMS_QuanLySieuThi\Quan_Ly_Kinh_Doanh\obj\Debug\Quan_Ly_Kinh_Doanh.pdb
+D:\LAP_TRINH\NAM_3\DBMS\DoAn\DoAnDBMS_QuanLySieuThi\Quan_Ly_Kinh_Doanh\obj\Debug\Quan_Ly_Kinh_Doanh.DisplayLayer.FormLoginServer.resources

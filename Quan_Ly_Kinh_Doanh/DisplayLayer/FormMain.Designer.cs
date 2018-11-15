@@ -31,6 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.tabcHienThi = new System.Windows.Forms.TabControl();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.dangNhapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ThoatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnSanPham = new System.Windows.Forms.Button();
             this.btnNhanVien = new System.Windows.Forms.Button();
             this.btnPhongBan = new System.Windows.Forms.Button();
@@ -39,8 +41,6 @@
             this.btnHoaDon = new System.Windows.Forms.Button();
             this.btnDangNhap = new System.Windows.Forms.Button();
             this.pnlHienThi = new System.Windows.Forms.Panel();
-            this.dangNhapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ThoatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnThongKe = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.pnlHienThi.SuspendLayout();
@@ -48,23 +48,43 @@
             // 
             // tabcHienThi
             // 
-            this.tabcHienThi.Location = new System.Drawing.Point(177, 25);
+            this.tabcHienThi.Location = new System.Drawing.Point(236, 31);
+            this.tabcHienThi.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tabcHienThi.Name = "tabcHienThi";
             this.tabcHienThi.SelectedIndex = 0;
-            this.tabcHienThi.Size = new System.Drawing.Size(930, 511);
+            this.tabcHienThi.Size = new System.Drawing.Size(1240, 629);
             this.tabcHienThi.TabIndex = 0;
             // 
             // menuStrip1
             // 
             this.menuStrip1.BackColor = System.Drawing.Color.Beige;
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.dangNhapToolStripMenuItem,
             this.ThoatToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1134, 24);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(1512, 28);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
+            // 
+            // dangNhapToolStripMenuItem
+            // 
+            this.dangNhapToolStripMenuItem.Image = global::Quan_Ly_Kinh_Doanh.Properties.Resources.login2;
+            this.dangNhapToolStripMenuItem.Name = "dangNhapToolStripMenuItem";
+            this.dangNhapToolStripMenuItem.Size = new System.Drawing.Size(114, 24);
+            this.dangNhapToolStripMenuItem.Text = "Đăng nhập";
+            this.dangNhapToolStripMenuItem.Click += new System.EventHandler(this.dangNhapToolStripMenuItem_Click);
+            // 
+            // ThoatToolStripMenuItem
+            // 
+            this.ThoatToolStripMenuItem.Enabled = false;
+            this.ThoatToolStripMenuItem.Image = global::Quan_Ly_Kinh_Doanh.Properties.Resources.cancel;
+            this.ThoatToolStripMenuItem.Name = "ThoatToolStripMenuItem";
+            this.ThoatToolStripMenuItem.Size = new System.Drawing.Size(109, 24);
+            this.ThoatToolStripMenuItem.Text = "Đăng xuất";
+            this.ThoatToolStripMenuItem.Click += new System.EventHandler(this.ThoatToolStripMenuItem_Click);
             // 
             // btnSanPham
             // 
@@ -73,9 +93,10 @@
             this.btnSanPham.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSanPham.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSanPham.ForeColor = System.Drawing.Color.Black;
-            this.btnSanPham.Location = new System.Drawing.Point(3, 28);
+            this.btnSanPham.Location = new System.Drawing.Point(4, 34);
+            this.btnSanPham.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnSanPham.Name = "btnSanPham";
-            this.btnSanPham.Size = new System.Drawing.Size(160, 60);
+            this.btnSanPham.Size = new System.Drawing.Size(213, 74);
             this.btnSanPham.TabIndex = 2;
             this.btnSanPham.Text = "Quản lý sản phẩm";
             this.btnSanPham.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -89,9 +110,10 @@
             this.btnNhanVien.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnNhanVien.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnNhanVien.ForeColor = System.Drawing.Color.Black;
-            this.btnNhanVien.Location = new System.Drawing.Point(3, 92);
+            this.btnNhanVien.Location = new System.Drawing.Point(4, 113);
+            this.btnNhanVien.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnNhanVien.Name = "btnNhanVien";
-            this.btnNhanVien.Size = new System.Drawing.Size(160, 60);
+            this.btnNhanVien.Size = new System.Drawing.Size(213, 74);
             this.btnNhanVien.TabIndex = 3;
             this.btnNhanVien.Text = "Quản lý nhân viên";
             this.btnNhanVien.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -105,9 +127,10 @@
             this.btnPhongBan.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnPhongBan.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPhongBan.ForeColor = System.Drawing.Color.Black;
-            this.btnPhongBan.Location = new System.Drawing.Point(3, 220);
+            this.btnPhongBan.Location = new System.Drawing.Point(4, 271);
+            this.btnPhongBan.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnPhongBan.Name = "btnPhongBan";
-            this.btnPhongBan.Size = new System.Drawing.Size(160, 60);
+            this.btnPhongBan.Size = new System.Drawing.Size(213, 74);
             this.btnPhongBan.TabIndex = 5;
             this.btnPhongBan.Text = "Quản lý phòng ban";
             this.btnPhongBan.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -121,9 +144,10 @@
             this.btnKhachHang.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnKhachHang.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnKhachHang.ForeColor = System.Drawing.Color.Black;
-            this.btnKhachHang.Location = new System.Drawing.Point(3, 156);
+            this.btnKhachHang.Location = new System.Drawing.Point(4, 192);
+            this.btnKhachHang.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnKhachHang.Name = "btnKhachHang";
-            this.btnKhachHang.Size = new System.Drawing.Size(160, 60);
+            this.btnKhachHang.Size = new System.Drawing.Size(213, 74);
             this.btnKhachHang.TabIndex = 4;
             this.btnKhachHang.Text = "Quản lý thông tin khách hàng";
             this.btnKhachHang.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -137,9 +161,10 @@
             this.btnChiTietHoaDon.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnChiTietHoaDon.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnChiTietHoaDon.ForeColor = System.Drawing.Color.Black;
-            this.btnChiTietHoaDon.Location = new System.Drawing.Point(3, 348);
+            this.btnChiTietHoaDon.Location = new System.Drawing.Point(4, 428);
+            this.btnChiTietHoaDon.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnChiTietHoaDon.Name = "btnChiTietHoaDon";
-            this.btnChiTietHoaDon.Size = new System.Drawing.Size(160, 60);
+            this.btnChiTietHoaDon.Size = new System.Drawing.Size(213, 74);
             this.btnChiTietHoaDon.TabIndex = 7;
             this.btnChiTietHoaDon.Text = "Chi tiết hóa đơn";
             this.btnChiTietHoaDon.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -153,9 +178,10 @@
             this.btnHoaDon.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnHoaDon.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnHoaDon.ForeColor = System.Drawing.Color.Black;
-            this.btnHoaDon.Location = new System.Drawing.Point(3, 284);
+            this.btnHoaDon.Location = new System.Drawing.Point(4, 350);
+            this.btnHoaDon.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnHoaDon.Name = "btnHoaDon";
-            this.btnHoaDon.Size = new System.Drawing.Size(160, 60);
+            this.btnHoaDon.Size = new System.Drawing.Size(213, 74);
             this.btnHoaDon.TabIndex = 6;
             this.btnHoaDon.Text = "Quản lý hóa đơn";
             this.btnHoaDon.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -169,9 +195,10 @@
             this.btnDangNhap.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnDangNhap.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDangNhap.ForeColor = System.Drawing.Color.Black;
-            this.btnDangNhap.Location = new System.Drawing.Point(3, 476);
+            this.btnDangNhap.Location = new System.Drawing.Point(4, 586);
+            this.btnDangNhap.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnDangNhap.Name = "btnDangNhap";
-            this.btnDangNhap.Size = new System.Drawing.Size(160, 60);
+            this.btnDangNhap.Size = new System.Drawing.Size(213, 74);
             this.btnDangNhap.TabIndex = 8;
             this.btnDangNhap.Text = "Quản lý User";
             this.btnDangNhap.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -189,26 +216,11 @@
             this.pnlHienThi.Controls.Add(this.btnKhachHang);
             this.pnlHienThi.Controls.Add(this.btnHoaDon);
             this.pnlHienThi.Controls.Add(this.btnPhongBan);
-            this.pnlHienThi.Location = new System.Drawing.Point(12, 34);
+            this.pnlHienThi.Location = new System.Drawing.Point(16, 42);
+            this.pnlHienThi.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pnlHienThi.Name = "pnlHienThi";
-            this.pnlHienThi.Size = new System.Drawing.Size(1122, 539);
+            this.pnlHienThi.Size = new System.Drawing.Size(1496, 663);
             this.pnlHienThi.TabIndex = 9;
-            // 
-            // dangNhapToolStripMenuItem
-            // 
-            this.dangNhapToolStripMenuItem.Image = global::Quan_Ly_Kinh_Doanh.Properties.Resources.login2;
-            this.dangNhapToolStripMenuItem.Name = "dangNhapToolStripMenuItem";
-            this.dangNhapToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
-            this.dangNhapToolStripMenuItem.Text = "Đăng nhập";
-            this.dangNhapToolStripMenuItem.Click += new System.EventHandler(this.dangNhapToolStripMenuItem_Click);
-            // 
-            // ThoatToolStripMenuItem
-            // 
-            this.ThoatToolStripMenuItem.Image = global::Quan_Ly_Kinh_Doanh.Properties.Resources.cancel;
-            this.ThoatToolStripMenuItem.Name = "ThoatToolStripMenuItem";
-            this.ThoatToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
-            this.ThoatToolStripMenuItem.Text = "Thoát";
-            this.ThoatToolStripMenuItem.Click += new System.EventHandler(this.ThoatToolStripMenuItem_Click);
             // 
             // btnThongKe
             // 
@@ -217,9 +229,10 @@
             this.btnThongKe.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnThongKe.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnThongKe.ForeColor = System.Drawing.Color.Black;
-            this.btnThongKe.Location = new System.Drawing.Point(3, 412);
+            this.btnThongKe.Location = new System.Drawing.Point(4, 507);
+            this.btnThongKe.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnThongKe.Name = "btnThongKe";
-            this.btnThongKe.Size = new System.Drawing.Size(160, 60);
+            this.btnThongKe.Size = new System.Drawing.Size(213, 74);
             this.btnThongKe.TabIndex = 9;
             this.btnThongKe.Text = "Thống kê";
             this.btnThongKe.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -228,14 +241,15 @@
             // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Lavender;
-            this.ClientSize = new System.Drawing.Size(1134, 585);
+            this.ClientSize = new System.Drawing.Size(1512, 720);
             this.Controls.Add(this.pnlHienThi);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Quản lý siêu thị";

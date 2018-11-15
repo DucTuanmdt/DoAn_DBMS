@@ -14,15 +14,10 @@ namespace Quan_Ly_Kinh_Doanh
     
     public partial class view_SanPham
     {
-        public string MaNV { get; set; }
-        public string Ho { get; set; }
-        public string TenLot { get; set; }
-        public string Ten { get; set; }
-        public Nullable<System.DateTime> NgaySinh { get; set; }
-        public string GioiTinh { get; set; }
-        public string Phong { get; set; }
-        public Nullable<double> LuongCB { get; set; }
+        public string MaSP { get; set; }
+        public string TenSP { get; set; }
+        public string DonViTinh { get; set; }
+        public Nullable<double> Gia { get; set; }
         public byte[] Hinh { get; set; }
-        public string DienThoai { get; set; }
     }
 }

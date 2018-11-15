@@ -14,8 +14,8 @@ namespace Quan_Ly_Kinh_Doanh
     
     public partial class DANGNHAP
     {
-        public string MaNV { get; set; }
+        public string Username { get; set; }
         public string MatKhau { get; set; }
-        public Nullable<int> PhanQuyen { get; set; }
+        public string PhanQuyen { get; set; }
     }
 }

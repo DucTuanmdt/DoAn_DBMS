@@ -19,47 +19,53 @@ namespace Quan_Ly_Kinh_Doanh
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // TODO: This line of code loads data into the 'QLST.TTNV' table. You can move, or remove it, as needed.
-            this.TTNVTableAdapter.Fill(this.QLST.TTNV, "NV01");
-            this.HOADONTableAdapter.FillBy(this.QLST.HOADON, "HD01");
-            this.reportViewerCTHD.RefreshReport();
-            // TODO: This line of code loads data into the 'QLST.CHITIETHOADON' table. You can move, or remove it, as needed.
-            this.CHITIETHOADONTableAdapter.Fill(this.QLST.CHITIETHOADON);
-            // TODO: This line of code loads data into the 'QLST.NHANVIEN' table. You can move, or remove it, as needed.
-            this.NHANVIENTableAdapter.Fill(this.QLST.NHANVIEN);
+            try
+            {
+                // TODO: This line of code loads data into the 'QLST.TTNV' table. You can move, or remove it, as needed.
+                this.TTNVTableAdapter.Fill(this.QLST.TTNV, "NV0001");
+                this.HOADONTableAdapter.FillBy(this.QLST.HOADON, "HD0001");
+                this.reportViewerCTHD.RefreshReport();
+                // TODO: This line of code loads data into the 'QLST.CHITIETHOADON' table. You can move, or remove it, as needed.
+                this.CHITIETHOADONTableAdapter.Fill(this.QLST.CHITIETHOADON);
+                // TODO: This line of code loads data into the 'QLST.NHANVIEN' table. You can move, or remove it, as needed.
+                this.NHANVIENTableAdapter.Fill(this.QLST.NHANVIEN);
 
-            this.reportViewerNV.RefreshReport();
-            this.reportViewerHD.RefreshReport();
-            this.reportViewerCTNV.RefreshReport();
+                this.reportViewerNV.RefreshReport();
+                this.reportViewerHD.RefreshReport();
+                this.reportViewerCTNV.RefreshReport();
 
 
-            // đổ data vào combo box
-            QLST.NHANVIENDataTable dt = new Quan_Ly_Kinh_Doanh.QLST.NHANVIENDataTable();
-            QLSTTableAdapters.NHANVIENTableAdapter da = new QLSTTableAdapters.NHANVIENTableAdapter();
-            da.Fill(dt);
+                // đổ data vào combo box
+                QLST.NHANVIENDataTable dt = new Quan_Ly_Kinh_Doanh.QLST.NHANVIENDataTable();
+                QLSTTableAdapters.NHANVIENTableAdapter da = new QLSTTableAdapters.NHANVIENTableAdapter();
+                da.Fill(dt);
 
-            cbbTenNV.DataSource = dt;
-            cbbTenNV.DisplayMember = "HoTenNV";
-            cbbTenNV.ValueMember = "MaNV";
-            cbbTenNV.ResetText();
+                cbbTenNV.DataSource = dt;
+                cbbTenNV.DisplayMember = "HoTenNV";
+                cbbTenNV.ValueMember = "MaNV";
+                cbbTenNV.ResetText();
 
-            QLST.HOADON_DBDataTable dt2 = new QLST.HOADON_DBDataTable();
-            QLSTTableAdapters.HOADON_DBTableAdapter da2 = new QLSTTableAdapters.HOADON_DBTableAdapter();
-            da2.Fill(dt2);
+                QLST.HOADON_DBDataTable dt2 = new QLST.HOADON_DBDataTable();
+                QLSTTableAdapters.HOADON_DBTableAdapter da2 = new QLSTTableAdapters.HOADON_DBTableAdapter();
+                da2.Fill(dt2);
 
-            cbbHoaDon.DataSource = dt2;
-            cbbHoaDon.DisplayMember = "MaHD";
-            cbbHoaDon.ValueMember = "MaHD";
+                cbbHoaDon.DataSource = dt2;
+                cbbHoaDon.DisplayMember = "MaHD";
+                cbbHoaDon.ValueMember = "MaHD";
 
-            cbbHoaDon.ResetText();
+                cbbHoaDon.ResetText();
 
-            cbbMaHD.DataSource = dt2;
-            cbbMaHD.DisplayMember = "MaHD";
-            cbbMaHD.ValueMember = "MaHD";
+                cbbMaHD.DataSource = dt2;
+                cbbMaHD.DisplayMember = "MaHD";
+                cbbMaHD.ValueMember = "MaHD";
 
-            cbbNV.DataSource = dt;
-            cbbNV.DisplayMember = "HoTenNV";
-            cbbNV.ValueMember = "MaNV";
+                cbbNV.DataSource = dt;
+                cbbNV.DisplayMember = "HoTenNV";
+                cbbNV.ValueMember = "MaNV";
+            } catch (Exception e2)
+            {
+                MessageBox.Show("Không truy xuất được! " + e2.Message);
+            }
         }
 
         private void search_NV_Click(object sender, EventArgs e)

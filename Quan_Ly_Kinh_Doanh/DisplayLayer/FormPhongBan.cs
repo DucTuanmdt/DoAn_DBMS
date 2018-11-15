@@ -113,8 +113,15 @@ namespace Quan_Ly_Kinh_Doanh.DisplayLayer
 
                 if (traloi == System.Windows.Forms.DialogResult.Yes)
                 {
-                    dbKH.XoaPhongBan(MaKH, ref err);
-                    LoadData();
+                    bool isSuccess = dbKH.XoaPhongBan(MaKH, ref err);
+                    if (isSuccess == false)
+                    {
+                        MessageBox.Show("Bạn không được cấp quyền!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        LoadData();
+
+                        return;
+                    }
+
                     MessageBox.Show("Đã xóa mẫu tin!");
                 }
             }
@@ -131,8 +138,16 @@ namespace Quan_Ly_Kinh_Doanh.DisplayLayer
                 try
                 {
                     BLPhongBan blKH = new BLPhongBan();
-                    blKH.ThemPhongBan(txtMaPB.Text, txtTenPhong.Text, cbbTenTruongPhong.Text, ref err);
-                    LoadData();
+                    bool isSuccess = blKH.ThemPhongBan(txtMaPB.Text, txtTenPhong.Text, cbbTenTruongPhong.Text, ref err);
+                     
+                    if (isSuccess == false)
+                    {
+                        MessageBox.Show("Bạn không được cấp quyền!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        LoadData();
+
+                        return;
+                    }
+
                     MessageBox.Show("Đã thêm xong!");
                 }
                 catch
@@ -145,8 +160,15 @@ namespace Quan_Ly_Kinh_Doanh.DisplayLayer
                 try
                 {
                     BLPhongBan blKH = new BLPhongBan();
-                    blKH.CapNhatPhongBan(txtMaPB.Text, txtTenPhong.Text, cbbTenTruongPhong.Text,ref err);
-                    LoadData();
+                    bool isSuccess = blKH.CapNhatPhongBan(txtMaPB.Text, txtTenPhong.Text, cbbTenTruongPhong.Text,ref err);
+
+                    if (isSuccess == false)
+                    {
+                        MessageBox.Show("Bạn không được cấp quyền!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        LoadData();
+
+                        return;
+                    }
                     MessageBox.Show("Đã sửa xong!");
                 }
                 catch

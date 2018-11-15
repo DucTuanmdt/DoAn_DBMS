@@ -13,7 +13,7 @@
     <EntitySetMapping Name="DANGNHAPs">
       <EntityTypeMapping TypeName="QuanLySieuThiModel.DANGNHAP">
         <MappingFragment StoreEntitySet="DANGNHAP">
-          <ScalarProperty Name="MaNV" ColumnName="MaNV" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
           <ScalarProperty Name="MatKhau" ColumnName="MatKhau" />
           <ScalarProperty Name="PhanQuyen" ColumnName="PhanQuyen" />
         </MappingFragment>
@@ -180,16 +180,11 @@
     <EntitySetMapping Name="view_SanPham">
       <EntityTypeMapping TypeName="QuanLySieuThiModel.view_SanPham">
         <MappingFragment StoreEntitySet="view_SanPham">
-          <ScalarProperty Name="MaNV" ColumnName="MaNV" />
-          <ScalarProperty Name="Ho" ColumnName="Ho" />
-          <ScalarProperty Name="TenLot" ColumnName="TenLot" />
-          <ScalarProperty Name="Ten" ColumnName="Ten" />
-          <ScalarProperty Name="NgaySinh" ColumnName="NgaySinh" />
-          <ScalarProperty Name="GioiTinh" ColumnName="GioiTinh" />
-          <ScalarProperty Name="Phong" ColumnName="Phong" />
-          <ScalarProperty Name="LuongCB" ColumnName="LuongCB" />
+          <ScalarProperty Name="MaSP" ColumnName="MaSP" />
+          <ScalarProperty Name="TenSP" ColumnName="TenSP" />
+          <ScalarProperty Name="DonViTinh" ColumnName="DonViTinh" />
+          <ScalarProperty Name="Gia" ColumnName="Gia" />
           <ScalarProperty Name="Hinh" ColumnName="Hinh" />
-          <ScalarProperty Name="DienThoai" ColumnName="DienThoai" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -403,6 +398,7 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="DoiPassNe" FunctionName="QuanLySieuThiModel.Store.DoiPassNe" />
     <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="QuanLySieuThiModel.Store.sp_alterdiagram" />
     <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="QuanLySieuThiModel.Store.sp_creatediagram" />
     <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="QuanLySieuThiModel.Store.sp_dropdiagram" />
@@ -431,6 +427,9 @@
     <FunctionImportMapping FunctionImportName="usp_ChiTietHoaDon_Them" FunctionName="QuanLySieuThiModel.Store.usp_ChiTietHoaDon_Them" />
     <FunctionImportMapping FunctionImportName="usp_ChiTietHoaDon_Xoa" FunctionName="QuanLySieuThiModel.Store.usp_ChiTietHoaDon_Xoa" />
     <FunctionImportMapping FunctionImportName="usp_DangNhap_DoiMatKhau" FunctionName="QuanLySieuThiModel.Store.usp_DangNhap_DoiMatKhau" />
+    <FunctionImportMapping FunctionImportName="usp_DangNhap_Sua" FunctionName="QuanLySieuThiModel.Store.usp_DangNhap_Sua" />
+    <FunctionImportMapping FunctionImportName="usp_DangNhap_Them" FunctionName="QuanLySieuThiModel.Store.usp_DangNhap_Them" />
+    <FunctionImportMapping FunctionImportName="usp_DangNhap_Xoa" FunctionName="QuanLySieuThiModel.Store.usp_DangNhap_Xoa" />
     <FunctionImportMapping FunctionImportName="usp_HoaDon_Sua" FunctionName="QuanLySieuThiModel.Store.usp_HoaDon_Sua" />
     <FunctionImportMapping FunctionImportName="usp_HoaDon_Them" FunctionName="QuanLySieuThiModel.Store.usp_HoaDon_Them" />
     <FunctionImportMapping FunctionImportName="usp_HoaDon_Xoa" FunctionName="QuanLySieuThiModel.Store.usp_HoaDon_Xoa" />

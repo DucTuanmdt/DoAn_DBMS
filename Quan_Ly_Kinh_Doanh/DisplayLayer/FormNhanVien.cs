@@ -86,7 +86,8 @@ namespace Quan_Ly_Kinh_Doanh
             }
             catch
             {
-                MessageBox.Show("Không load được dữ liệu từ Table NhanVien. Lỗi rồi!");
+                this.Enabled = false;
+                MessageBox.Show("Bạn không được cấp quyền!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -282,7 +283,13 @@ namespace Quan_Ly_Kinh_Doanh
             if (e.KeyCode == Keys.Enter)
             {
                 ToolStripTextBox tenCanTim = sender as ToolStripTextBox;
-                LoadData2(dbNV.LayNhanVienTheoTimKiem(KieuTimKiemNhanVien.THEO_TEN, tenCanTim.Text));
+                DataTable tableNV = dbNV.LayNhanVienTheoTimKiem(KieuTimKiemNhanVien.THEO_TEN, tenCanTim.Text);
+                if (tableNV.Rows.Count < 1)
+                {
+                    MessageBox.Show("Không tìm thấy kết quả nào!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+                LoadData2(tableNV);
             }
         }
 

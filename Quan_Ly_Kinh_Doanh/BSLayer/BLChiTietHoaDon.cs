@@ -9,6 +9,8 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
 {
     class BLChiTietHoaDon
     {
+        private string _conString { get { return System.Configuration.ConfigurationManager.ConnectionStrings["QuanLySieuThiEntities"].ConnectionString; } }
+
         void SetTableColumn(DataTable dt)
         {
             dt.Columns.Add("Mã hóa đơn");
@@ -18,7 +20,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
         
         public DataTable LayChiTietHoaDon()
         {
-            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
+            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities(_conString);
             var pbs = qlSTEntity.CHITIETHOADONs.SqlQuery("SELECT * FROM dbo.CHITIETHOADON");
             DataTable dt = new DataTable();
             SetTableColumn(dt);
@@ -34,7 +36,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
         {
             try
             {
-                QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
+                QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities(_conString);
                 string query = string.Format("EXEC dbo.usp_ChiTietHoaDon_Them N'{0}', N'{1}', '{2}'", MaHD, LayMaSP(TenSP), SoLuong);
                 qlSTEntity.Database.ExecuteSqlCommand(query);
 
@@ -48,7 +50,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
         {
             try
             {
-                QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities();
+                QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities(_conString);
                 string query = string.Format("EXEC dbo.usp_ChiTietHoaDon_Sua N'{0}', N'{1}', '{2}'", MaHD, LayMaSP(TenSP), SoLuong);
                 qlKDEntity.Database.ExecuteSqlCommand(query);
                 return true;
@@ -60,7 +62,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
         {
             try
             {
-                QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities();
+                QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities(_conString);
                 string query = string.Format("EXEC dbo.usp_ChiTietHoaDon_Xoa N'{0}', N'{1}'", MaHD, LayMaSP(TenSP));
                 qlKDEntity.Database.ExecuteSqlCommand(query);
 
@@ -72,7 +74,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
         public List<string> LayDSTenSP()
         {
             List<string> dsMaSP = new List<string>();
-            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
+            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities(_conString);
             var sps = from p in qlSTEntity.SANPHAMs select p;
 
             foreach (var item in sps)
@@ -85,7 +87,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
 
         string LayMaSP(string TenSP)
         {
-            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
+            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities(_conString);
             var sps = (from p in qlSTEntity.SANPHAMs
                        where p.TenSP.Trim() == TenSP.Trim()
                        select p).SingleOrDefault();
@@ -95,7 +97,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
         public List<string> LayDSMaHD()
         {
             List<string> dsMaHD = new List<string>();
-            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
+            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities(_conString);
             var sps = from p in qlSTEntity.HOADONs select p;
 
             foreach (var item in sps)
@@ -108,7 +110,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
 
         public DataTable LayChiTietHoaDonTheoTimKiem(string chuoiCanTim)
         {
-            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
+            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities(_conString);
             var sps = qlSTEntity.func_ChiTietHoaDon_TimTheoTenSP(chuoiCanTim);
 
             DataTable dt = new DataTable();

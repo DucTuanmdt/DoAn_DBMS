@@ -12,6 +12,8 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
 {
     class BLKhachHang
     {
+        private string _conString { get { return System.Configuration.ConfigurationManager.ConnectionStrings["QuanLySieuThiEntities"].ConnectionString; } }
+
         void SetTableColumn(DataTable dt)
         {
             dt.Columns.Add("Mã KH");
@@ -26,7 +28,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
         public DataTable LayKhachHang()
         {
 
-            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
+            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities(_conString);
             var khs = qlSTEntity.view_KhachHang.SqlQuery("SELECT * FROM dbo.view_KhachHang");
             DataTable dt = new DataTable();
             SetTableColumn(dt);
@@ -43,7 +45,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
         {
             try
             {
-                QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
+                QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities(_conString);
                 string query = string.Format("EXECUTE dbo.usp_KhachHang_Them N'{0}', N'{1}', N'{2}', '{3}', N'{4}', N'{5}'", MaKH, TenKH, GioiTinh, ChuanHoaNgay(NgaySinh), DiaChi, DienThoai);
                 qlSTEntity.Database.ExecuteSqlCommand(query);
                 return true;
@@ -58,7 +60,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
         {
             try
             {
-                QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities();
+                QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities(_conString);
                 string query = string.Format("EXECUTE dbo.usp_KhachHang_Sua N'{0}', N'{1}', N'{2}', '{3}', N'{4}', N'{5}'", MaKH, TenKH, GioiTinh, ChuanHoaNgay(NgaySinh), DiaChi, DienThoai);
                 qlKDEntity.Database.ExecuteSqlCommand(query);
 
@@ -72,7 +74,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
         {
             try
             {
-                QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities();
+                QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities(_conString);
                 string query = string.Format("EXECUTE dbo.usp_KhachHang_Xoa N'{0}'", MaKH);
                 qlKDEntity.Database.ExecuteSqlCommand(query);
 
@@ -84,14 +86,14 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
 
         public string SinhMaKHMoi(string MaCuoi)
         {
-            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
+            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities(_conString);
             string mamoi = qlSTEntity.Database.SqlQuery<string>("SELECT dbo.func_KhachHang_SinhMa()").Single().ToString().Trim();
             return mamoi;
         }
 
         public DataTable LayKhachHangTheoLoc(bool isLonHon, string Tuoi)
         {
-            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
+            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities(_conString);
             DataTable dt = new DataTable();
             SetTableColumn(dt);
 
@@ -120,7 +122,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
 
         public DataTable LayKhachHangTheoTimKiem(string chuoiCanTim)
         {
-            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
+            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities(_conString);
 
             var sps = qlSTEntity.func_KhachHang_TimTheoTen(chuoiCanTim);
 

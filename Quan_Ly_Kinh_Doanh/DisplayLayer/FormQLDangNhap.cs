@@ -24,16 +24,16 @@ namespace Quan_Ly_Kinh_Doanh.DisplayLayer
 
         void SetEnableTextBox(bool isEnable)
         {
-            txtNhapLaiMatKhau.ReadOnly = !isEnable;
-            cbbMaNV.Enabled = isEnable;
+            cbbPhanQuyen.Enabled = isEnable;
+            txtUsername.ReadOnly = !isEnable;
             txtMatKhau.ReadOnly = !isEnable;
         }
 
         void ResetTextBox()
         {
-            cbbMaNV.ResetText();
+
+            txtUsername.ResetText();
             txtMatKhau.ResetText();
-            txtNhapLaiMatKhau.ResetText();
         }
 
         void SetMenuEnable(bool isEnable)
@@ -49,18 +49,15 @@ namespace Quan_Ly_Kinh_Doanh.DisplayLayer
         //Đang trong chế độ xem
         void SetXem()
         {
-            txtNhapLaiMatKhau.ResetText();
             SetEnableTextBox(false);
             SetMenuEnable(false);
             dgvDangNhap.Enabled = true;
-            pnlNhapLaiMatKhau.Hide();
         }
 
         //Đang trong chế độ sửa
         void SetThemSua()
         {
             SetMenuEnable(true);
-            pnlNhapLaiMatKhau.Show();
         }
 
         void LoadData()
@@ -75,7 +72,8 @@ namespace Quan_Ly_Kinh_Doanh.DisplayLayer
             }
             catch
             {
-                MessageBox.Show("Không load được dữ liệu từ Table DangNhap. Lỗi rồi!");
+                this.Enabled = false;
+                MessageBox.Show("Bạn không có quyền truy cập!");
             }
         }
 
@@ -90,57 +88,44 @@ namespace Quan_Ly_Kinh_Doanh.DisplayLayer
             ResetTextBox();
             SetThemSua();
             SetEnableTextBox(true);
-            cbbMaNV.Focus();
+            txtUsername.Focus();
         }
 
-        bool KiemTraMatKhauCu()
-        {
-            if (dbKH.KiemTraDangNhap(cbbMaNV.Text, txtMatKhau.Text) == true)
-            {
-                MessageBox.Show("Hãy nhập mật khẩu mới!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return true;
-            }
+        //bool KiemTraMatKhauCu()
+        //{
+        //    if (dbKH.KiemTraDangNhap(txtUsername.Text, txtMatKhau.Text) == true)
+        //    {
+        //        MessageBox.Show("Hãy nhập mật khẩu mới!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        //        return true;
+        //    }
 
-            MessageBox.Show("Bạn đã nhập sai password cũ!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            txtMatKhau.ReadOnly = true;
-            SetXem();
-            SetEnableTextBox(false);
+        //    MessageBox.Show("Bạn đã nhập sai password cũ!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        //    txtMatKhau.ReadOnly = true;
+        //    SetXem();
+        //    SetEnableTextBox(false);
 
-            return false;
-        }
+        //    return false;
+        //}
 
-        private void btnXacNhan_Click(object sender, EventArgs e)
-        {
-            btnXacNhan.Hide();
-            dgvDangNhap.Enabled = true;
 
-            if (KiemTraMatKhauCu() == false)
-                return;
-
-            ResetTextBox();
-            isThem = false;
-            //dgvPHONGBAN_CellClick(null, null);
-            SetThemSua();
-            SetEnableTextBox(true);
-            txtMatKhau.Focus();
-        }
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Hãy nhập lại mật khẩu cũ!", "Yêu cầu", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            txtMatKhau.ReadOnly = false;
-            txtMatKhau.Focus();
-            btnXacNhan.Show();
+            //MessageBox.Show("Hãy nhập lại mật khẩu cũ!", "Yêu cầu", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //txtMatKhau.ReadOnly = false;
+            //txtMatKhau.Focus();
             SetMenuEnable(true);
             dgvDangNhap.Enabled = false;
-            ResetTextBox();
+            txtMatKhau.ReadOnly = false;
+            cbbPhanQuyen.Enabled = true;
+            //ResetTextBox();
         }
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
-                string MaNV = cbbMaNV.Text;
+                string MaNV = txtUsername.Text;
                 var traloi = MessageBox.Show("Bạn có chắc chắn muốn xóa?", "Trả lời", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (traloi == System.Windows.Forms.DialogResult.Yes)
@@ -158,18 +143,12 @@ namespace Quan_Ly_Kinh_Doanh.DisplayLayer
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (txtMatKhau.Text != txtNhapLaiMatKhau.Text)
-            {
-                MessageBox.Show("Mật khẩu không khớp giữa hai lần nhập!");
-                return;
-            }
-
             if (isThem == true)
             {
                 try
                 {
                     BLDangNhap blKH = new BLDangNhap();
-                    blKH.ThemDangNhap(cbbMaNV.Text, txtMatKhau.Text, ref err);
+                    blKH.ThemDangNhap(txtUsername.Text, txtMatKhau.Text, cbbPhanQuyen.Text, ref err);
                     LoadData();
                     MessageBox.Show("Đã thêm xong!");
                 }
@@ -183,7 +162,7 @@ namespace Quan_Ly_Kinh_Doanh.DisplayLayer
                 try
                 {
                     BLDangNhap blKH = new BLDangNhap();
-                    blKH.CapNhatDangNhap(cbbMaNV.Text, txtMatKhau.Text, ref err);
+                    blKH.CapNhatDangNhap(txtUsername.Text, txtMatKhau.Text, cbbPhanQuyen.Text, ref err);
                     LoadData();
                     MessageBox.Show("Đã sửa xong!");
                 }
@@ -197,7 +176,6 @@ namespace Quan_Ly_Kinh_Doanh.DisplayLayer
         private void cancelToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SetXem();
-            txtNhapLaiMatKhau.ResetText();
             SetEnableTextBox(false);
             dgvPHONGBAN_CellClick(null, null);
         }
@@ -206,7 +184,7 @@ namespace Quan_Ly_Kinh_Doanh.DisplayLayer
         {
             LoadData();
             KhoiTaoGiaTriComboBox();
-            btnXacNhan.Hide();
+            //btnXacNhan.Hide();
         }
 
         //Cái này dùng kỹ thuật Binding thì hay hơn, nhưng chưa kịp test lỗi nên chưa dùng
@@ -214,13 +192,16 @@ namespace Quan_Ly_Kinh_Doanh.DisplayLayer
         {
             int r = dgvDangNhap.CurrentCell.RowIndex;
             int count = 0;
-            cbbMaNV.Text = dgvDangNhap.Rows[r].Cells[count++].Value.ToString();
+            txtUsername.Text = dgvDangNhap.Rows[r].Cells[count++].Value.ToString();
             txtMatKhau.Text = dgvDangNhap.Rows[r].Cells[count++].Value.ToString();
+            cbbPhanQuyen.Text = dgvDangNhap.Rows[r].Cells[count++].Value.ToString();
+
         }
 
         void KhoiTaoGiaTriComboBox()
         {
-            cbbMaNV.DataSource = dbKH.LayDSMaNV();
+            List<string> phanquyen = new List<string>() { "Admin", "Moderator", "Staff" };
+            cbbPhanQuyen.DataSource = phanquyen;
         }
 
         

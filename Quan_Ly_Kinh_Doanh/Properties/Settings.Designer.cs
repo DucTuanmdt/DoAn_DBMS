@@ -13,7 +13,7 @@ namespace Quan_Ly_Kinh_Doanh.Properties
 
 
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStuio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase
     {
 
@@ -37,6 +37,57 @@ namespace Quan_Ly_Kinh_Doanh.Properties
             get
             {
                 return ((string)(this["QuanLySieuThiConnectionString"]));
+            }
+            set
+            {
+                this["QuanLySieuThiConnectionString"] = value;
+            }
+        }
+
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.22.1")]
+        public string DataSource
+        {
+            get
+            {
+                return ((string)(this["DataSource"]));
+            }
+            set
+            {
+                this["DataSource"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("QuanLySieuThi")]
+        public string Database
+        {
+            get
+            {
+                return ((string)(this["Database"]));
+            }
+            set
+            {
+                this["Database"] = value;
+            }
+        }
+
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("QuanLySieuThi")]
+        public string Username
+        {
+            get
+            {
+                return ((string)(this["Username"]));
+            }
+            set
+            {
+                this["Username"] = value;
             }
         }
     }

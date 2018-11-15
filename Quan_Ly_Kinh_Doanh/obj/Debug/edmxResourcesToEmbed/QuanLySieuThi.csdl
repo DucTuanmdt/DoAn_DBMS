@@ -147,11 +147,11 @@
   </EntityType>
   <EntityType Name="DANGNHAP">
     <Key>
-      <PropertyRef Name="MaNV" />
+      <PropertyRef Name="Username" />
     </Key>
-    <Property Name="MaNV" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-    <Property Name="MatKhau" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-    <Property Name="PhanQuyen" Type="Int32" />
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="MatKhau" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PhanQuyen" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="HOADON">
     <Key>
@@ -310,18 +310,13 @@
   </EntityType>
   <EntityType Name="view_SanPham">
     <Key>
-      <PropertyRef Name="MaNV" />
+      <PropertyRef Name="MaSP" />
     </Key>
-    <Property Name="MaNV" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-    <Property Name="Ho" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-    <Property Name="TenLot" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-    <Property Name="Ten" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-    <Property Name="NgaySinh" Type="DateTime" Precision="0" />
-    <Property Name="GioiTinh" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
-    <Property Name="Phong" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-    <Property Name="LuongCB" Type="Double" />
+    <Property Name="MaSP" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="TenSP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DonViTinh" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Gia" Type="Double" />
     <Property Name="Hinh" Type="Binary" MaxLength="Max" FixedLength="false" />
-    <Property Name="DienThoai" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
   </EntityType>
   <Association Name="FK_CHITIETHOADON_HOADON">
     <End Role="HOADON" Type="Self.HOADON" Multiplicity="1">
@@ -489,6 +484,10 @@
     <FunctionImport Name="func_SanPham_TimTheoTen" IsComposable="true" ReturnType="Collection(QuanLySieuThiModel.func_SanPham_TimTheoTen_Result)">
       <Parameter Name="ChuoiCanTim" Mode="In" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="DoiPassNe">
+      <Parameter Name="username" Mode="In" Type="String" />
+      <Parameter Name="password" Mode="In" Type="String" />
+    </FunctionImport>
     <FunctionImport Name="sp_alterdiagram">
       <Parameter Name="diagramname" Mode="In" Type="String" />
       <Parameter Name="owner_id" Mode="In" Type="Int32" />
@@ -535,7 +534,25 @@
     </FunctionImport>
     <FunctionImport Name="usp_DangNhap_DoiMatKhau">
       <Parameter Name="username" Mode="In" Type="String" />
+      <Parameter Name="oldpassword" Mode="In" Type="String" />
       <Parameter Name="password" Mode="In" Type="String" />
+      <Parameter Name="confirmpassword" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="usp_DangNhap_Sua">
+      <Parameter Name="usernametao" Mode="In" Type="String" />
+      <Parameter Name="username" Mode="In" Type="String" />
+      <Parameter Name="password" Mode="In" Type="String" />
+      <Parameter Name="phanquyen" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="usp_DangNhap_Them">
+      <Parameter Name="usernametao" Mode="In" Type="String" />
+      <Parameter Name="username" Mode="In" Type="String" />
+      <Parameter Name="password" Mode="In" Type="String" />
+      <Parameter Name="phanquyen" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="usp_DangNhap_Xoa">
+      <Parameter Name="usernametao" Mode="In" Type="String" />
+      <Parameter Name="username" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="usp_HoaDon_Sua">
       <Parameter Name="MaHD" Mode="In" Type="String" />

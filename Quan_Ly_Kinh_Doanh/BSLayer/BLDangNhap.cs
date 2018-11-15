@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -9,30 +10,25 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
 {
     class BLDangNhap
     {
+        private string _conString { get { return System.Configuration.ConfigurationManager.ConnectionStrings["QuanLySieuThiEntities"].ConnectionString; } }
+        private string currentUsername { get { return Properties.Settings.Default.Username; } }
+
         public DataTable LayDangNhap()
         {
-
-            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
-            var pbs = from p in qlSTEntity.DANGNHAPs select p;
+            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities(_conString);
+            var pbs = qlSTEntity.DANGNHAPs.SqlQuery("SELECT * FROM dbo.DANGNHAP");
             DataTable dt = new DataTable();
-            dt.Columns.Add("Mã NV");
+            dt.Columns.Add("Username");
             dt.Columns.Add("Mật khẩu");
+            dt.Columns.Add("Quyền hạn");
 
             foreach (var p in pbs)
             {
-                dt.Rows.Add(p.MaNV.Trim(), CheMatKhau(p.MatKhau.Trim()));
+                dt.Rows.Add(p.Username.Trim(), CheMatKhau(p.MatKhau.Trim()), p.PhanQuyen);
             }
             return dt;
         }
 
-        //string HienQuyen(int quyen)
-        //{
-        //    if (quyen == 1)
-        //        return "Admin";
-        //    else if (quyen == 2)
-        //        return "Moderator";
-        //    return "Nhân viên";
-        //}
 
         string CheMatKhau(string MatKhau)
         {
@@ -45,62 +41,66 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
             return str;
         }
 
-        public bool ThemDangNhap(string MaNV, string MatKhau, ref string err)
+        public bool ThemDangNhap(string Username, string MatKhau, string PhanQuyen, ref string err)
         {
-            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
-            DANGNHAP pb = new DANGNHAP();
-
-            pb.MaNV = MaNV;
-            pb.MatKhau = MatKhau;
-
-            qlSTEntity.DANGNHAPs.Add(pb);
-            qlSTEntity.SaveChanges();
-
-            return true;
-        }
-
-        public bool CapNhatDangNhap(string MaNV, string MatKhau, ref string err)
-        {
-            QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities();
-            var pbQuery = (from p in qlKDEntity.DANGNHAPs
-                           where (p.MaNV == MaNV)
-                           select p).SingleOrDefault();
-
-            if (pbQuery != null)
+            try
             {
-                pbQuery.MatKhau = MatKhau;
-
-                qlKDEntity.SaveChanges();
+                QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities(_conString);
+                string query = string.Format("EXEC dbo.usp_DangNhap_Them N'{0}', N'{1}', N'{2}'", Username, MatKhau, PhanQuyen);
+                qlSTEntity.Database.ExecuteSqlCommand(query);
+                return true;
             }
+            catch (Exception e) { }
 
-            return true;
+            return false;
         }
 
-        public bool XoaDangNhap(string MaNV, ref string err)
+        public bool CapNhatDangNhap(string Username, string MatKhau, string PhanQuyen, ref string err)
         {
-            QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities();
+            try
+            {
+                QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities(_conString);
+                string query = string.Format("EXEC dbo.usp_DangNhap_Sua N'{0}', N'{1}', N'{2}'", Username, MatKhau, PhanQuyen);
+                qlSTEntity.Database.ExecuteSqlCommand(query);
 
-            DANGNHAP pb = new DANGNHAP();
-            pb.MaNV = MaNV;
+                if (currentUsername == Username)
+                    DoiConnectionString(MatKhau);
 
-            qlKDEntity.DANGNHAPs.Attach(pb);
-            qlKDEntity.DANGNHAPs.Remove(pb);
+                return true;
+            }
+            catch (Exception e) { }
 
-            qlKDEntity.SaveChanges();
+            return false;
+        }
 
-            return true;
+        public bool XoaDangNhap(string Username, ref string err)
+        {
+            if (currentUsername == Username)
+                return false;
+
+                try
+                {
+                QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities(_conString);
+                string query = string.Format("EXEC dbo.usp_DangNhap_Xoa N'{0}'", Username);
+                qlSTEntity.Database.ExecuteSqlCommand(query);
+
+                return true;
+            }
+            catch (Exception e) { }
+
+            return false;
         }
 
         public bool KiemTraDangNhap(string MaNV, string MatKhau)
         {
-            QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities();
+            QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities(_conString);
 
-            var dnQuery = (from p in qlKDEntity.DANGNHAPs
-                           where p.MaNV == MaNV && p.MatKhau == MatKhau
-                           select p).SingleOrDefault();
+            //var dnQuery = (from p in qlKDEntity.DANGNHAPs
+            //               where p.MaNV == MaNV && p.MatKhau == MatKhau
+            //               select p).SingleOrDefault();
 
-            if (dnQuery != null)
-                return true;
+            //if (dnQuery != null)
+            //    return true;
 
             return false;
         }
@@ -108,7 +108,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
         public List<string> LayDSMaNV()
         {
             List<string> dsMaKH = new List<string>();
-            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
+            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities(_conString);
             var sps = from p in qlSTEntity.NHANVIENs select p;
 
             foreach (var item in sps)
@@ -117,6 +117,23 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
             }
 
             return dsMaKH;
+        }
+
+        public void DoiConnectionString(string MatKKhau)
+        {
+            string newConnectionString = _conString;
+            int startIndex = _conString.IndexOf("password");
+            int endIndex = _conString.IndexOf(";", startIndex);
+            string oldPass = newConnectionString.Substring(startIndex, endIndex - startIndex);
+            string newPass = string.Format("password={0}", MatKKhau);
+
+            newConnectionString = newConnectionString.Replace(oldPass, newPass);
+
+            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            var connectionStringsSection = (ConnectionStringsSection)config.GetSection("connectionStrings");
+            connectionStringsSection.ConnectionStrings["QuanLySieuThiEntities"].ConnectionString = newConnectionString;
+            config.Save();
+            ConfigurationManager.RefreshSection("connectionStrings");
         }
     }
 }

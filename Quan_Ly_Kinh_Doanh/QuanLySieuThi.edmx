@@ -16,11 +16,11 @@
         </EntityType>
         <EntityType Name="DANGNHAP">
           <Key>
-            <PropertyRef Name="MaNV" />
+            <PropertyRef Name="Username" />
           </Key>
-          <Property Name="MaNV" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="MatKhau" Type="nchar" MaxLength="10" />
-          <Property Name="PhanQuyen" Type="int" />
+          <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MatKhau" Type="nvarchar" MaxLength="50" />
+          <Property Name="PhanQuyen" Type="nvarchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="HOADON">
           <Key>
@@ -185,18 +185,13 @@ warning 6002: The table/view 'QuanLySieuThi.dbo.view_PhongBan' does not have a p
 warning 6002: The table/view 'QuanLySieuThi.dbo.view_SanPham' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="view_SanPham">
           <Key>
-            <PropertyRef Name="MaNV" />
+            <PropertyRef Name="MaSP" />
           </Key>
-          <Property Name="MaNV" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="Ho" Type="nvarchar" MaxLength="20" />
-          <Property Name="TenLot" Type="nvarchar" MaxLength="20" />
-          <Property Name="Ten" Type="nvarchar" MaxLength="20" />
-          <Property Name="NgaySinh" Type="date" />
-          <Property Name="GioiTinh" Type="nvarchar" MaxLength="3" />
-          <Property Name="Phong" Type="nchar" MaxLength="10" />
-          <Property Name="LuongCB" Type="float" />
+          <Property Name="MaSP" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="TenSP" Type="nvarchar" MaxLength="50" />
+          <Property Name="DonViTinh" Type="nvarchar" MaxLength="20" />
+          <Property Name="Gia" Type="float" />
           <Property Name="Hinh" Type="image" />
-          <Property Name="DienThoai" Type="nchar" MaxLength="12" />
         </EntityType>
         <Association Name="FK_CHITIETHOADON_HOADON">
           <End Role="HOADON" Type="Self.HOADON" Multiplicity="1">
@@ -274,6 +269,10 @@ warning 6002: The table/view 'QuanLySieuThi.dbo.view_SanPham' does not have a pr
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="DoiPassNe" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="username" Type="nvarchar" Mode="In" />
+          <Parameter Name="password" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
         <Function Name="func_ChiTietHoaDon_TimTheoTenSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ChuoiCanTim" Type="nvarchar" Mode="In" />
@@ -288,8 +287,11 @@ warning 6002: The table/view 'QuanLySieuThi.dbo.view_SanPham' does not have a pr
           </ReturnType>
         </Function>
         <Function Name="func_DangNhap_KiemTraDangNhap" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="bit">
-          <Parameter Name="username" Type="char" Mode="In" />
-          <Parameter Name="password" Type="char" Mode="In" />
+          <Parameter Name="username" Type="nvarchar" Mode="In" />
+          <Parameter Name="password" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="func_DangNhap_LayRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="nvarchar">
+          <Parameter Name="phanquyen" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="func_HoaDon_LayDSMaHD" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <ReturnType>
@@ -604,8 +606,26 @@ warning 6002: The table/view 'QuanLySieuThi.dbo.view_SanPham' does not have a pr
           <Parameter Name="MaSP" Type="nchar" Mode="In" />
         </Function>
         <Function Name="usp_DangNhap_DoiMatKhau" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="username" Type="char" Mode="In" />
-          <Parameter Name="password" Type="char" Mode="In" />
+          <Parameter Name="username" Type="nvarchar" Mode="In" />
+          <Parameter Name="oldpassword" Type="nvarchar" Mode="In" />
+          <Parameter Name="password" Type="nvarchar" Mode="In" />
+          <Parameter Name="confirmpassword" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="usp_DangNhap_Sua" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="usernametao" Type="nvarchar" Mode="In" />
+          <Parameter Name="username" Type="nvarchar" Mode="In" />
+          <Parameter Name="password" Type="nvarchar" Mode="In" />
+          <Parameter Name="phanquyen" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="usp_DangNhap_Them" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="usernametao" Type="nvarchar" Mode="In" />
+          <Parameter Name="username" Type="nvarchar" Mode="In" />
+          <Parameter Name="password" Type="nvarchar" Mode="In" />
+          <Parameter Name="phanquyen" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="usp_DangNhap_Xoa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="usernametao" Type="nvarchar" Mode="In" />
+          <Parameter Name="username" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="usp_HoaDon_Sua" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="MaHD" Type="nchar" Mode="In" />
@@ -785,16 +805,11 @@ FROM [dbo].[view_PhongBan] AS [view_PhongBan]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="view_SanPham" EntityType="Self.view_SanPham" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
-[view_SanPham].[MaNV] AS [MaNV], 
-[view_SanPham].[Ho] AS [Ho], 
-[view_SanPham].[TenLot] AS [TenLot], 
-[view_SanPham].[Ten] AS [Ten], 
-[view_SanPham].[NgaySinh] AS [NgaySinh], 
-[view_SanPham].[GioiTinh] AS [GioiTinh], 
-[view_SanPham].[Phong] AS [Phong], 
-[view_SanPham].[LuongCB] AS [LuongCB], 
-[view_SanPham].[Hinh] AS [Hinh], 
-[view_SanPham].[DienThoai] AS [DienThoai]
+[view_SanPham].[MaSP] AS [MaSP], 
+[view_SanPham].[TenSP] AS [TenSP], 
+[view_SanPham].[DonViTinh] AS [DonViTinh], 
+[view_SanPham].[Gia] AS [Gia], 
+[view_SanPham].[Hinh] AS [Hinh]
 FROM [dbo].[view_SanPham] AS [view_SanPham]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_CHITIETHOADON_HOADON" Association="Self.FK_CHITIETHOADON_HOADON">
@@ -974,11 +989,11 @@ FROM [dbo].[view_SanPham] AS [view_SanPham]</DefiningQuery>
         </EntityType>
         <EntityType Name="DANGNHAP">
           <Key>
-            <PropertyRef Name="MaNV" />
+            <PropertyRef Name="Username" />
           </Key>
-          <Property Name="MaNV" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="MatKhau" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="PhanQuyen" Type="Int32" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MatKhau" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PhanQuyen" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="HOADON">
           <Key>
@@ -1137,18 +1152,13 @@ FROM [dbo].[view_SanPham] AS [view_SanPham]</DefiningQuery>
         </EntityType>
         <EntityType Name="view_SanPham">
           <Key>
-            <PropertyRef Name="MaNV" />
+            <PropertyRef Name="MaSP" />
           </Key>
-          <Property Name="MaNV" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="Ho" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="TenLot" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="Ten" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="NgaySinh" Type="DateTime" Precision="0" />
-          <Property Name="GioiTinh" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
-          <Property Name="Phong" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="LuongCB" Type="Double" />
+          <Property Name="MaSP" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="TenSP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DonViTinh" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Gia" Type="Double" />
           <Property Name="Hinh" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="DienThoai" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
         </EntityType>
         <Association Name="FK_CHITIETHOADON_HOADON">
           <End Role="HOADON" Type="Self.HOADON" Multiplicity="1">
@@ -1316,6 +1326,10 @@ FROM [dbo].[view_SanPham] AS [view_SanPham]</DefiningQuery>
           <FunctionImport Name="func_SanPham_TimTheoTen" IsComposable="true" ReturnType="Collection(QuanLySieuThiModel.func_SanPham_TimTheoTen_Result)">
             <Parameter Name="ChuoiCanTim" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="DoiPassNe">
+            <Parameter Name="username" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="sp_alterdiagram">
             <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
@@ -1362,7 +1376,25 @@ FROM [dbo].[view_SanPham] AS [view_SanPham]</DefiningQuery>
           </FunctionImport>
           <FunctionImport Name="usp_DangNhap_DoiMatKhau">
             <Parameter Name="username" Mode="In" Type="String" />
+            <Parameter Name="oldpassword" Mode="In" Type="String" />
             <Parameter Name="password" Mode="In" Type="String" />
+            <Parameter Name="confirmpassword" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_DangNhap_Sua">
+            <Parameter Name="usernametao" Mode="In" Type="String" />
+            <Parameter Name="username" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+            <Parameter Name="phanquyen" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_DangNhap_Them">
+            <Parameter Name="usernametao" Mode="In" Type="String" />
+            <Parameter Name="username" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+            <Parameter Name="phanquyen" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_DangNhap_Xoa">
+            <Parameter Name="usernametao" Mode="In" Type="String" />
+            <Parameter Name="username" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="usp_HoaDon_Sua">
             <Parameter Name="MaHD" Mode="In" Type="String" />
@@ -1487,7 +1519,7 @@ FROM [dbo].[view_SanPham] AS [view_SanPham]</DefiningQuery>
           <EntitySetMapping Name="DANGNHAPs">
             <EntityTypeMapping TypeName="QuanLySieuThiModel.DANGNHAP">
               <MappingFragment StoreEntitySet="DANGNHAP">
-                <ScalarProperty Name="MaNV" ColumnName="MaNV" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="MatKhau" ColumnName="MatKhau" />
                 <ScalarProperty Name="PhanQuyen" ColumnName="PhanQuyen" />
               </MappingFragment>
@@ -1654,16 +1686,11 @@ FROM [dbo].[view_SanPham] AS [view_SanPham]</DefiningQuery>
           <EntitySetMapping Name="view_SanPham">
             <EntityTypeMapping TypeName="QuanLySieuThiModel.view_SanPham">
               <MappingFragment StoreEntitySet="view_SanPham">
-                <ScalarProperty Name="MaNV" ColumnName="MaNV" />
-                <ScalarProperty Name="Ho" ColumnName="Ho" />
-                <ScalarProperty Name="TenLot" ColumnName="TenLot" />
-                <ScalarProperty Name="Ten" ColumnName="Ten" />
-                <ScalarProperty Name="NgaySinh" ColumnName="NgaySinh" />
-                <ScalarProperty Name="GioiTinh" ColumnName="GioiTinh" />
-                <ScalarProperty Name="Phong" ColumnName="Phong" />
-                <ScalarProperty Name="LuongCB" ColumnName="LuongCB" />
+                <ScalarProperty Name="MaSP" ColumnName="MaSP" />
+                <ScalarProperty Name="TenSP" ColumnName="TenSP" />
+                <ScalarProperty Name="DonViTinh" ColumnName="DonViTinh" />
+                <ScalarProperty Name="Gia" ColumnName="Gia" />
                 <ScalarProperty Name="Hinh" ColumnName="Hinh" />
-                <ScalarProperty Name="DienThoai" ColumnName="DienThoai" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1877,6 +1904,7 @@ FROM [dbo].[view_SanPham] AS [view_SanPham]</DefiningQuery>
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="DoiPassNe" FunctionName="QuanLySieuThiModel.Store.DoiPassNe" />
           <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="QuanLySieuThiModel.Store.sp_alterdiagram" />
           <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="QuanLySieuThiModel.Store.sp_creatediagram" />
           <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="QuanLySieuThiModel.Store.sp_dropdiagram" />
@@ -1905,6 +1933,9 @@ FROM [dbo].[view_SanPham] AS [view_SanPham]</DefiningQuery>
           <FunctionImportMapping FunctionImportName="usp_ChiTietHoaDon_Them" FunctionName="QuanLySieuThiModel.Store.usp_ChiTietHoaDon_Them" />
           <FunctionImportMapping FunctionImportName="usp_ChiTietHoaDon_Xoa" FunctionName="QuanLySieuThiModel.Store.usp_ChiTietHoaDon_Xoa" />
           <FunctionImportMapping FunctionImportName="usp_DangNhap_DoiMatKhau" FunctionName="QuanLySieuThiModel.Store.usp_DangNhap_DoiMatKhau" />
+          <FunctionImportMapping FunctionImportName="usp_DangNhap_Sua" FunctionName="QuanLySieuThiModel.Store.usp_DangNhap_Sua" />
+          <FunctionImportMapping FunctionImportName="usp_DangNhap_Them" FunctionName="QuanLySieuThiModel.Store.usp_DangNhap_Them" />
+          <FunctionImportMapping FunctionImportName="usp_DangNhap_Xoa" FunctionName="QuanLySieuThiModel.Store.usp_DangNhap_Xoa" />
           <FunctionImportMapping FunctionImportName="usp_HoaDon_Sua" FunctionName="QuanLySieuThiModel.Store.usp_HoaDon_Sua" />
           <FunctionImportMapping FunctionImportName="usp_HoaDon_Them" FunctionName="QuanLySieuThiModel.Store.usp_HoaDon_Them" />
           <FunctionImportMapping FunctionImportName="usp_HoaDon_Xoa" FunctionName="QuanLySieuThiModel.Store.usp_HoaDon_Xoa" />

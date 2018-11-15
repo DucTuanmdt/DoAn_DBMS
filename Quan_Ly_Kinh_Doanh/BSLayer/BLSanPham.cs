@@ -20,6 +20,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
 
     public class BLSanPham
     {
+        private string _conString { get { return System.Configuration.ConfigurationManager.ConnectionStrings["QuanLySieuThiEntities"].ConnectionString; } }
 
         void SetTableColumn(DataTable dt)
         {
@@ -31,7 +32,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
 
         public DataTable LaySanPham()
         {
-            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
+            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities(_conString);
             var sps = qlSTEntity.SANPHAMs.SqlQuery("SELECT * FROM dbo.SANPHAM");
             DataTable dt = new DataTable();
             SetTableColumn(dt);
@@ -46,7 +47,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
 
         public Image LayHinhAnhSanPham(string MaSP)
         {
-            QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities();
+            QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities(_conString);
             SANPHAM sp = (from p in qlKDEntity.SANPHAMs
                           where p.MaSP == MaSP
                           select p).FirstOrDefault();
@@ -60,7 +61,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
         {
             try
             {
-                QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
+                QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities(_conString);
 
                 byte[] Hinh = null;
 
@@ -85,7 +86,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
         {
             try
             {
-                QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities();
+                QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities(_conString);
                 byte[] Hinh = null;
                 if (HinhSP != null)
                 {
@@ -107,7 +108,7 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
         {
             try
             {
-                QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities();
+                QuanLySieuThiEntities qlKDEntity = new QuanLySieuThiEntities(_conString);
                 string query = string.Format("EXEC dbo.usp_SanPham_Xoa N'{0}'", MaSP);
                 qlKDEntity.Database.ExecuteSqlCommand(query);
                 
@@ -119,14 +120,14 @@ namespace Quan_Ly_Kinh_Doanh.BSLayer
 
         public string SinhMaSPMoi(string MaCuoi)
         {
-            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
+            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities(_conString);
             string mamoi = qlSTEntity.Database.SqlQuery<string>("SELECT dbo.func_SanPham_SinhMa()").Single().ToString().Trim();
             return mamoi;
         }
 
         public DataTable LaySanPhamTheoTimKiem(KieuTimKiemSanPham kieuTimKiem, bool isLonHon, string chuoiCanTim)
         {
-            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities();
+            QuanLySieuThiEntities qlSTEntity = new QuanLySieuThiEntities(_conString);
             DbSqlQuery<Quan_Ly_Kinh_Doanh.SANPHAM> sps;
             string query = "";
             if (kieuTimKiem == KieuTimKiemSanPham.THEO_TEN)
