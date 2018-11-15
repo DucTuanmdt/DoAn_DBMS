@@ -148,6 +148,7 @@ namespace Quan_Ly_Kinh_Doanh.DisplayLayer
                         return;
                     }
 
+                    LoadData();
                     MessageBox.Show("Đã thêm xong!");
                 }
                 catch
@@ -169,6 +170,8 @@ namespace Quan_Ly_Kinh_Doanh.DisplayLayer
 
                         return;
                     }
+
+                    LoadData();
                     MessageBox.Show("Đã sửa xong!");
                 }
                 catch
